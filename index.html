@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-A visual introduction to machine learning
+A visual introduction to block chain
 </title>
 
     <link rel="shortcut icon" href="/static/app/global/favicon.ico">
@@ -23,6 +23,7 @@ A visual introduction to machine learning
     
 
 <!-- Social media  -->
+<!--
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@r2d3us" />
 <meta name="twitter:title" content="A visual introduction to machine learning" />
@@ -34,9 +35,11 @@ A visual introduction to machine learning
 <meta property="og:title" content="A visual introduction to machine learning" />
 <meta property="og:description" content="What is machine learning? See how it works with our animated data visualization." />
 <meta property="og:image" content="http://www.r2d3.us/static/pages/decision-trees-part-1/preview-en.png" />
+-->
 <!-- ...................   -->
 
 <link href="app/decision_styles.css" rel="stylesheet">
+
 
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function(event) { 
@@ -85,6 +88,7 @@ A visual introduction to machine learning
 
 <!-- Language Annotations  -->
 
+<!--
 <link rel="alternate" hreflang="pt" href="http://www.r2d3.us/uma-introducao-visual-ao-aprendizado-de-maquina-1/"/> 
 <link rel="alternate" hreflang="fr" href="http://www.r2d3.us/lapprentissage-automatique-en-images-chapitre-1/"/> 
 <link rel="alternate" hreflang="zh-Hant" href="http://www.r2d3.us/圖解機器學習第一章/"/> 
@@ -100,6 +104,7 @@ A visual introduction to machine learning
 <link rel="alternate" hreflang="x-default" href="http://www.r2d3.us/visual-intro-to-machine-learning-part-1/"/>
 <link rel="alternate" hreflang="en" href="http://www.r2d3.us/visual-intro-to-machine-learning-part-1/"/>
 <link rel="canonical" href="http://www.r2d3.us/visual-intro-to-machine-learning-part-1/"/>
+-->
 <!-- ...................   -->
 
 
@@ -123,47 +128,38 @@ A visual introduction to machine learning
 	<div class="row" id="intro">
 		<div class="col-xs-5">
 			<div id="set-up" class="tracking-section">
-				<h1>A visual introduction to machine learning</h1>
-				<p class="small"><img style="height:1.2em;filter:contrast(1%);" alt="language:" src="img/world.png" />: <select id="translation-selector" onChange="window.document.location.href=this.options[this.selectedIndex].value;">
-					<option value="/visual-intro-to-machine-learning-part-1">
-						English
-					</option>
-					
-					<option value="/uma-introducao-visual-ao-aprendizado-de-maquina-1">Português</a> 
-					
-					<option value="/lapprentissage-automatique-en-images-chapitre-1">Français</a> 
-					
-					<option value="/圖解機器學習第一章">中文</a> 
-					
-					<option value="/Наглядное-Введение-в-Теорию-Машинного-Обучения">русский</a> 
-					
-					<option value="/una-introduccion-visual-al-machine-learning-1">Español</a> 
-					
-					<option value="/makine-ogrenmesine-gorsel-baslangic-1">Türk</a> 
-					
-					<option value="/una-introduzione-visuale-al-machine-learning-1">Italiano</a> 
-					
-					<option value="/visual-intro-to-machine-learning-part-1-ar">لعربية</a> 
-					
-					<option value="/pengantar-visual-pembelajaran-mesin-bag-1">Bahasa Indonesia</a> 
-					
-					<option value="/图解机器学习">简体</a> 
-					
-					<option value="/οπτική-εισαγωγή-στη-μηχανική-μάθηση-μέρος-1">ελληνικά</a> 
-					
-					<option value="/visuelle-einfuehrung-ins-maschinelle-lernen-teil-1">Deutsch</a> 
-					
-				</select></p>
+				<h1>A visual introduction to blockchain</h1>
+				<p class="small"><img style="height:1.2em;filter:contrast(1%);" alt="language:" src="img/world.png"/>: 
+					<select id="translation-selector" onChange="window.document.location.href=this.options[this.selectedIndex].value;">
+					<option value="/index.html">verbose</option>
+<!--						replace this with presentation mode in the future-->
+					<option value="/index.html">presentation</option> 
+					</select></p>
 				<p>In machine learning, computers apply <strong>statistical learning</strong> techniques to automatically identify patterns in data. These techniques can  be used to make highly accurate predictions.</p>
 				<p><em>Keep scrolling.</em> Using a data set about homes, we will create a machine learning model to distinguish homes in New York from homes in San Francisco. </p>
 			</div>
 			<div id="keep-scrolling">
-				<div id="animated-arrow">
-					<p>Scroll</p>
-					<svg width="40" height="10">
-						<path d="M0,0L40,0L20,10Z" fill="#000" stroke="none" />
-					</svg>
-				</div>
+<!--				<p>D3 practices</p>-->
+					<script>
+						var canvas = d3.select("body").append("svg")
+							.attr("width", 500)
+							.attr("height", 500);
+			
+						var r = 100;
+						var p = Math.PI *2;
+
+						var arc = d3.svg.arc()
+							.innerRadius(r-20)
+							.outerRadius(r)
+							.startAngle(0)
+							.endAngle(p);
+
+						var group = canvas.append("g")
+							.attr("transform", "translate(100, 100)");
+
+						group.append("path")
+								.attr("d", arc);
+					</script>
 			</div>
 			<hr class="whitespace" style="height: 30vh;" />
 			<div id="first-two" class="tracking-section">
@@ -379,7 +375,6 @@ A visual introduction to machine learning
 				<hr class="whitespace" style="height: 25vh;" />
 			</div>
 
-
 		</div>
 		
 
@@ -459,6 +454,7 @@ A visual introduction to machine learning
 
 
 <script type="text/javascript" src="dist/c814f45e5cce5d96ddf550688fefd942.js"></script>
+<script src = "http://d3js.org/d3.v3.min.js"></script>
 
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -470,7 +466,7 @@ A visual introduction to machine learning
   ga('send', 'pageview');
 </script>
     
-<script src="/static/pages/decision-trees-part-1/housing-data/tree-training-set-98.js"></script>
+<script src="/app/tree-training-set-98.js"></script>
 <script type="text/javascript" src="dist/24a2beb93032441d9bd16ce805264f95.js"></script>
 
   </body>

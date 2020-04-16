@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+A visual introduction to block chain
+</title>
+
+    <link rel="shortcut icon" href="/static/app/global/favicon.ico">
+    <link rel="apple-touch-icon" href="img/r2d3-logo.png">
+    <!-- Customized Bootstrap Cited from R2D3-->
+    <link href="app/bootstrap.min.css" rel="stylesheet">
+	<link href="app/global_style.css" rel="stylesheet">
+   
+
+<link href="app/decision_styles.css" rel="stylesheet">
+<script src="https://d3js.org/d3.v4.js"></script>
+
+
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(event) { 
+    var dismissText = document.getElementById("dismiss-disclaimer")
+    var removeDisclaimer
+  
+    removeDisclaimer = function() {
+      var disclaimer = document.getElementById('resolution-disclaimer')
+      disclaimer.remove()
+  
+      dismissText.removeEventListener("click", removeDisclaimer, false)
+    }
+  
+    dismissText.addEventListener("click", removeDisclaimer, false)
+  });  
+</script>
+<style>
+  #resolution-disclaimer {
+    display: none;
+  }
+  
+  @media (max-width: 1023px) and (max-height: 767px) {
+    #resolution-disclaimer {
+      z-index: 10000;
+      display: block;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      background: rgba(0,0,0,0.85);
+    }
+  
+    #disclaimer-wrapper {
+      width: 95vw;
+      margin: 20px auto;
+      color: #fff;
+    }
+  
+    #dismiss-disclaimer {
+      text-decoration: underline;
+      cursor: pointer;
+      color: #777;
+    }
+  }
+</style>  
+
+
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-11 col-sm-4">
+            <a id="logo" class="hide-text" href="/">R2D3</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+<div class="container" id="main">
+	<div class="row" id="intro">
+		<div class="col-xs-5">
+			<div id="set-up" class="tracking-section">
+				<h1>A visual introduction to blockchain</h1>
+				<p class="small"><img style="height:1.2em;filter:contrast(1%);" alt="language:" src="img/world.png"/>: 
+					<select id="translation-selector" onChange="window.document.location.href=this.options[this.selectedIndex].value;">
+					<option value="/index.html">verbose</option>
+<!--						replace this with presentation mode in the future-->
+					<option value="/index.html">presentation</option> 
+					</select></p>
+				<p>In machine learning, computers apply <strong>statistical learning</strong> techniques to automatically identify patterns in data. These techniques can  be used to make highly accurate predictions.</p>
+				<p><em>Keep scrolling.</em> Using a data set about homes, we will create a machine learning model to distinguish homes in New York from homes in San Francisco. </p>
+			</div>
+			<div id="my_dataviz"></div>
+<!--				<p>D3 practices</p>-->
+					
+			</div>
+	
+		</div>
+	</div>
+	<div class="row" id="split">
+		<div class="col-xs-4 col-xs-push-8">
+			<div id="elevation-to-histogram" class="tracking-section">
+				<hr class="whitespace" style="height: 20vh;" />
+				<h2> Finding better boundaries </h2>
+				<p> Let's revisit the 73-m elevation boundary proposed previously to see how we can improve upon our intuition. </p>
+				<p> Clearly, this requires a different perspective.  </p>
+				<hr class="whitespace" style="height: 40vh;" />
+				<p> By transforming our visualization into a <strong>histogram</strong>, we can better see how frequently homes appear at each elevation. </p>
+				<p> While the highest home in New York is 73m, the majority of them seem to have far lower elevations. </p>
+
+			</div>
+			
+	
+		</div>
+	</div>
+	
+
+	<div id="conclusion" class="tracking-section">
+		<div class="row">
+			<div class="col-xs-8 col-xs-offset-2">
+				<hr class="whitespace" style="height: 10vh;" />
+				<h2>Recap</h2>
+				<ol>
+					<li>Machine learning identifies patterns using <strong>statistical learning</strong> and computers by unearthing <strong>boundaries</strong> in data sets. You can use it to make predictions.</li>					
+					<li>One method for making predictions is called a decision trees, which uses a series of if-then statements to identify boundaries and define patterns in the data.</li>
+					<li><strong>Overfitting</strong> happens when some boundaries are based on on <em>distinctions that don't make a difference</em>. You can see if a model overfits by having test data flow through the model.</li>
+				</ol>
+				<hr class="whitespace" style="height: 25vh;" />
+			</div>
+		</div>
+
+
+</div>
+
+<div class="static-container" id="shadow-scatterplot"></div>
+<div class="static-container" id="intro-scatterplot"></div>
+<div class="static-container" id="split-quality"></div>
+<div class="static-container" id="decision-tree"></div>
+<div class="static-container" id="train-vs-test"></div>
+
+
+<script>
+
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 30, bottom: 30, left: 40},
+  width = 400 - margin.left - margin.right,
+  height = 400 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+.append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+.append("g")
+  .attr("transform",
+        "translate(" + margin.left + "," + margin.top + ")");
+
+d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_network.json", function( data) {
+
+  // Initialize the links
+  var link = svg
+    .selectAll("line")
+    .data(data.links)
+    .enter()
+    .append("line")
+      .style("stroke", "#aaa")
+
+  // Initialize the nodes
+  var node = svg
+    .selectAll("circle")
+    .data(data.nodes)
+    .enter()
+    .append("circle")
+      .attr("r", 20)
+      .style("fill", "#69b3a2")
+
+  // Let's list the force we wanna apply on the network
+  var simulation = d3.forceSimulation(data.nodes)                 // Force algorithm is applied to data.nodes
+      .force("link", d3.forceLink()                               // This force provides links between nodes
+            .id(function(d) { return d.id; })                     // This provide  the id of a node
+            .links(data.links)                                    // and this the list of links
+      )
+      .force("charge", d3.forceManyBody().strength(-400))         // This adds repulsion between nodes. Play with the -400 for the repulsion strength
+      .force("center", d3.forceCenter(width / 2, height / 2))     // This force attracts nodes to the center of the svg area
+      .on("end", ticked);
+
+  // This function is run at each iteration of the force algorithm, updating the nodes position.
+  function ticked() {
+    link
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node
+         .attr("cx", function (d) { return d.x+6; })
+         .attr("cy", function(d) { return d.y-6; });
+  }
+
+});
+
+
+</script>
+
+
+<script type="text/javascript" src="dist/c814f45e5cce5d96ddf550688fefd942.js"></script>
+    
+<script src="/app/tree-training-set-98.js"></script>
+<script type="text/javascript" src="dist/24a2beb93032441d9bd16ce805264f95.js"></script>
+
+  </body>
+</html>
