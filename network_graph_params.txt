@@ -6,5 +6,5 @@ node
 
 //repulsion strength
 centralized -800
-decentralized = -200
-distributed = -50
+decentralized = -100
+distributed = -100
