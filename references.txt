@@ -1,3 +1,5 @@
 D3.js related Resources:
 - https://www.d3-graph-gallery.com/graph/network_basic.html
 - https://observablehq.com/@d3/force-directed-graph
+- https://www.dashingd3js.com/table-of-contents
+- https://github.com/d3/d3/wiki/Tutorials
