@@ -42,178 +42,156 @@
 							 .attr("height", 600);
 			
 			
-			var nodeData = [{ id: 1, x: 100, y: 110 },
-							{ id: 2, x: 83, y: 43 },
-							{ id: 3, x: 92, y: 28 },
-							{ id: 4, x: 49, y: 74 },
-							{ id: 5, x: 51, y: 10 },
-							{ id: 6, x: 25, y: 98 },
-							{ id: 7, x: 77, y: 30 },
-							{ id: 8, x: 20, y: 83 },
-							{ id: 9, x: 11, y: 63 },
-							{ id: 10, x:  4, y: 55 },
-							{ id: 11, x:  0, y:  0 },
-							{ id: 12, x: 85, y: 100 },
-							{ id: 13, x: 60, y: 40 },
-							{ id: 14, x: 70, y: 80 },
-							{ id: 15, x: 10, y: 20 },
-							{ id: 16, x: 40, y: 50 },
-							{ id: 17, x: 25, y: 31 }
+			var nodeData = [{ x: 100, y: 110 },
+							{ x: 83, y: 43 },
+							{ x: 92, y: 28 },
+							{ x: 49, y: 74 },
+							{ x: 51, y: 10 },
+							{ x: 25, y: 98 },
+							{ x: 77, y: 30 },
+							{ x: 20, y: 83 },
+							{ x: 11, y: 63 },
+							{ x:  4, y: 55 },
+							{ x:  0, y:  0 },
+							{ x: 85, y: 100 },
+							{ x: 60, y: 40 },
+							{ x: 70, y: 80 },
+							{ x: 10, y: 20 },
+							{ x: 40, y: 50 },
+							{ x: 25, y: 31 }
 						  ];
-			var lineData = [{from: 1, to: 2, x1: 100, y1: 110, x2: 83, y2: 43}, 
-						    {from: 2, to: 3, x1: 83, y1: 43, x2: 92, y2: 28}
-						   ];
-
+			
+			
 			var circleAttrs = {
 				  cx: function(d) { return d.x*3; },
 				  cy: function(d) { return d.y*3; },
-				  r: 5
+				  id: function(d, i){return "n"+i;},
+				  r: 5,
 			  };
+			
+			
+			//draw all the circles/nodes
+			var nodes = svgContainer.selectAll("circle")
+						  .data(nodeData)
+						  .enter()
+						  .append("circle")
+						  .attr(circleAttrs);
+			
+		
+			//more automation could be done here to compute pathLength
+//			var lineData = [{from: 1, to: 2, x1: 100, y1: 110, x2: 83, y2: 43, len: 70}, 
+//						    {from: 2, to: 3, x1: 83, y1: 43, x2: 92, y2: 28, len: 17.49}
+//						   ];
+			
+			//if necessary, change the identifier to id instead of index
+			var connect = [{from: 0, to: 1},
+						   {from: 1, to: 2},
+						   {from: 3, to: 1},
+						   {from: 1, to: 15},
+						   {from: 15, to: 5},
+						   {from: 15, to: 6},
+						   {from: 7, to: 15}];
+			
+			var pt1, pt2, x1, x2, y1, y2, len, tmp;
+			var lineData = [];
+			
+			/*
+			javascript for loop tidbits: https://stackoverflow.com/questions/8681593/does-javascript-have-an-enhanced-for-loop-syntax-similar-to-javas
+			*/
+			for(i = 0; i<connect.length; i++){
+				pt1 = nodeData[connect[i].from];
+				pt2 = nodeData[connect[i].to];
+				x1 = pt1.x;
+				y1 = pt1.y;
+				x2 = pt2.x;
+				y2 = pt2.y;
+				//square runtime performance: https://stackoverflow.com/questions/26593302/whats-the-fastest-way-to-square-a-number-in-javascript/53663890
+				len = Math.sqrt((x1-x2)**2 + (y1-y2)**2);
+				tmp = {from: 'n'+connect[i].from, to: 'n'+connect[i].to, x1: x1, y1: y1, x2: x2, y2: y2, len: len, id: 'l'+i};
+				lineData.push(tmp);
+				if(pt1.hasOwnProperty("link")){
+					pt1.link.push('l'+i);
+				}else{
+					pt1.link = ['l'+i];
+				}
+				if(pt2.hasOwnProperty("link")){
+					pt2.link.push('l'+i);
+				}else{
+					pt2.link = ['l'+i];
+				}
+				console.log("node 1: "+'#n'+tmp.from);
+				d3.select('#'+tmp.from).attr("fill", "red");
+				d3.select('#'+tmp.to).attr("fill", "red");
+				
+			}
+			
+			console.log(nodeData);
 			
 			var lineAttrs = {
 				x1: function(d){ return d.x1*3;},
 				x2: function(d){ return d.x2*3;},
 				y1: function(d){ return d.y1*3;},
 				y2: function(d){ return d.y2*3;},
+				stroke: "black",
+				"stroke-width": 2,
+				opacity: 0.5,
+				id: function(d){return d.id;},
+				pathLength: function(d){return d.len*3;}
 			};
 			
-			svgContainer.selectAll("circle")
-						  .data(nodeData)
-						  .enter()
-						  .append("circle")
-						  .attr(circleAttrs)
-						  .attr("id", function(d){return "n" + d.id;});  // Get attributes from circleAttrs var
-			
-           
-			
-			svgContainer.selectAll("line")
+		
+		    //draw all the lines/links
+			lines = svgContainer.selectAll("line")
 						.data(lineData)
 						.enter()
 						.append("line")
-						.attr("x1", function(d){return d.x1;})
-						.attr("x2", function(d){return d.x2;})
-						.attr("y1", function(d){return d.y1;})
-						.attr("y2", function(d){return d.y2;})
-						.attr("stroke-width", 2);
+						.attr(lineAttrs);
 			
-			var l2 = svgContainer.append("line")
-								 .attr("x1", 300)
-								 .attr("y1", 110*3)
-								 .attr("x2", 83*3)
-								 .attr("y2", 43*3)
-								 .attr("stroke-width", 2)
-								 .attr("stroke", "black")
-								 .attr("opacity", 0.5);
-		
-								l2.attr("stroke-dasharray",  207+ " "+207)
-								.attr("stroke-dashoffset", 207)
+			//animation on connection
+			lines.each(function(){
+				var dashlen = d3.select(this).attr("pathLength");
+				d3.select(this).attr("stroke-dasharray",  dashlen+ " "+dashlen)
+								.attr("stroke-dashoffset", dashlen)
 								.transition()
 								.delay(1000)
 								.duration(2000)
 								.ease("linear")
 								.attr("stroke-dashoffset", 0);
-
-			var l3 = svgContainer.append("line")
-					 .attr("x1", 83*3)
-					 .attr("y1", 43*3)
-					 .attr("x2", 92*3)
-					 .attr("y2", 28*3)
-					 .attr("stroke-width", 2)
-					 .attr("stroke", "black")
-					.attr("opacity", 0.5);
-					l3.attr("stroke-dasharray",  52+ " "+52)
-					.attr("stroke-dashoffset", 52)
-					.transition()
-					.delay(1000)
-					.duration(2000)
-					.ease("linear")
-					.attr("stroke-dashoffset", 0);
-
-			var n2 =d3.select("#n2");
-					
-			var l2act = true;
-//			l2.attr("opacity", 1);
-			
-			n2.on("click", function(){
-				var newOpacity;
-				newOpacity = l2act?0:0.5;
-				l2.style("opacity", newOpacity);
-				l3.style("opacity", newOpacity);
-				l2act = newOpacity==0.5?true:false;
-//				svgContainer.append("text").attr("x", 200).attr("y", 200).text("yay");
 			});
+				
+//			var node, lines, tmp_line;
+//			for(i = 0; i<lineData.length; i++){
+//					tmp_line = lineData[i];
+//					if(node.localeCompare(tmp_line.from == 0 ||node.localeCompare(tmp_line.to == 0){
+//						lines.push("#" + tmp_line.id);
+//					}
+//				}
 			
-			
-//			svgContainer.append("text")
-//						.attr("x", 300)
-//							.attr("y", 300)
-//							.style("fill", "steelblue")
-//							.style("opacity", 1)
-//							.text(l2.attr("x1"));
-			
-			
-//			svgContainer.selectAll("line")
-//						.attr("opacity", 0.5)
-//						.attr("stroke-dasharray", l2.y1 + " "+ l2.y1)
-//						.attr("stroke-dashoffset", 10)
-//						.transition()
-//						.delay(1000)
-//						.duration(2000)
-//						.ease("linear")
-//						.attr("stroke-dashoffset", 0);
-			
-			
-			
-			
-
-			
-			var cir1 = svgContainer.append("circle")
-									.attr("cx", 50)
-									.attr("cy", 50)
-									.attr("r", 5);
-			
-			var cir2 = svgContainer.append("circle")
-									.attr("cx", 50)
-									.attr("cy", 500)
-									.attr("r", 10);
-			
-			var line = svgContainer.append("line")
-								 .attr("x1", 50)
-								 .attr("y1", 50)
-								 .attr("x2", 50)
-								 .attr("y2", 500)
-								 .attr("stroke-width", 2)
-								 .attr("stroke", "black");
-			var offset = 450;		
-			//http://bl.ocks.org/fryford/2925ecf70ac9d9b51031
-			
-			line.attr("stroke-dasharray", 450 + " "+ 450)
-				.attr("stroke-dashoffset", offset)
-				.transition()
-				.delay(1000)
-				.duration(2000)
-				.ease("linear")
-				.attr("stroke-dashoffset", 0);
-			
-//			var text = svgContainer.append("text")
-//							.attr("x", 300)
-//							.attr("y", 300)
-//							.style("fill", "steelblue")
-//							.style("opacity", 1)
-//							.text("hello world");
-			
-			line.attr("opacity", 0.5);
+			var nd, node, ind, data;
+			nodes.each(function(){
+				d3.select(this).on("click", function(){
+					node = this.id;
+//					console.log(node);
+					ind = parseInt(String(node).replace('n', ''));
+//					console.log(ind);
+					data = nodeData[ind];
+//					console.log(data);
+					if(data.hasOwnProperty("link")){
+						var links = data["link"];
+//						console.log(links);
+						for(i=0; i<links.length; i++){
+							var lk = d3.select("#" + links[i]);
+//							console.log(lk.attr("opacity"));
+							var newOpacity =lk.attr("opacity")==0.5?0:0.5;
+							console.log("newOpac: "+ newOpacity);
+							lk.attr("opacity", newOpacity);
+						}
+					}
+				
+				});
+			});
 		
 			
-			var active = true;
-			
-			cir2.on("click", function(){
-				var newOpacity;
-				newOpacity = active?0:0.5;
-				line.style("opacity", newOpacity);
-				active = newOpacity==0.5?true:false;
-//				svgContainer.append("text").attr("x", 200).attr("y", 200).text("yay");
-			});
 		
 
 			
