@@ -4,19 +4,40 @@
 		<title>D3-line</title>
 		<script src = "http://d3js.org/d3.v3.min.js"></script>
 		<style>
-			.path {
-			  stroke-dasharray: 1000;
-			  stroke-dashoffset: 1000;
-			  animation: dash 5s linear alternate infinite;
+		    body { 
+			  margin:0;
+			  position:fixed;
+			  top:0;right:0;bottom:0;left:0;
+				font-family: Helvetica, Arial;
 			}
-
-			@keyframes dash {
-			  from {
-				stroke-dashoffset: 822;
-			  }
-			  to {
-				stroke-dashoffset: 0;
-			  }
+			#container {
+			  position: relative;
+			  z-index: 20;
+			}
+			#sticky { 
+			  position: absolute; 
+			  top: 0; 
+			  left: 0; 
+			  width: 50%; 
+			  z-index: 50;
+			}
+			.panel {
+			  width: 100%;
+			  padding-left: 20px;
+			  padding-top: 25vh;
+			  padding-bottom: 25vh;
+			}
+			.panel p {
+			  padding-right: 50%;
+			}
+			.panel:first-child {
+			  padding-top: 500vh;
+			}
+/*
+			.panel:last-child {
+			  padding-bottom: 45vh;
+			}
+*/
 			}
 		</style>
 
@@ -24,22 +45,50 @@
 
 	
 	<body>
-<!--		<p>D3 practices</p>-->
-<!--
-		<svg viewBox="0 0 340 333">
+		<div id="sticky"></div>
+		<!--	about overflow: https://www.w3schools.com/cssref/pr_pos_overflow.asp-->
+		  <div id="container" style="height: 100vh; overflow: scroll">
+			<div id="content">
+				<div class="panel">
+				  </div>
 
-		  <path class="path" fill="white" stroke="black" stroke-width="4" d="M66.039,133.545c0,0-21-57,18-67s49-4,65,8
-			s30,41,53,27s66,4,58,32s-5,44,18,57s22,46,0,45s-54-40-68-16s-40,88-83,48s11-61-11-80s-79-7-70-41
-			C46.039,146.545,53.039,128.545,66.039,133.545z"/>
+				  <div class="panel">
+				  </div>
 
-		</svg>
--->
-		
+				  <div class="panel">
+				  </div>
+
+				  <div class="panel">
+				  </div>
+
+				  <div class="panel">
+				  </div>
+				  <div class="panel">
+				  </div>
+
+				  <div class="panel">
+				   </div>
+			 
+			  
+			</div>
+		  </div>
+
+
 		<script>
 			
-			var svgContainer = d3.select("body").append("svg")
+			//see https://stackoverflow.com/questions/37443482/what-is-the-difference-between-window-innerwidth-and-screen-width for difference between window.innerWidth vs screen.width
+			var WIDTH = window.innerWidth / 2;
+			var HEIGHT = window.innerHeight/2;
+
+			//center the d3 object in the middle of the right panel
+			var translate = 'translate(' + (WIDTH / 2) + ',' + (HEIGHT / 2) + ')';
+			
+				
+			
+			var svgContainer = d3.select("#sticky").append("svg")
 							 .attr("width", 500)
-							 .attr("height", 600);
+							 .attr("height", 600)
+							 .attr('transform', translate);
 			
 			
 			var nodeData = [{ x: 100, y: 110 },
@@ -52,7 +101,7 @@
 							{ x: 20, y: 83 },
 							{ x: 11, y: 63 },
 							{ x:  4, y: 55 },
-							{ x:  0, y:  0 },
+							{ x:  5, y:  5 },
 							{ x: 85, y: 100 },
 							{ x: 60, y: 40 },
 							{ x: 70, y: 80 },
@@ -66,7 +115,7 @@
 				  cx: function(d) { return d.x*3; },
 				  cy: function(d) { return d.y*3; },
 				  id: function(d, i){return "n"+i;},
-				  r: 5,
+				  r: 7,
 			  };
 			
 			
@@ -75,13 +124,10 @@
 						  .data(nodeData)
 						  .enter()
 						  .append("circle")
-						  .attr(circleAttrs);
+						  .attr(circleAttrs)
+						  ;
 			
 		
-			//more automation could be done here to compute pathLength
-//			var lineData = [{from: 1, to: 2, x1: 100, y1: 110, x2: 83, y2: 43, len: 70}, 
-//						    {from: 2, to: 3, x1: 83, y1: 43, x2: 92, y2: 28, len: 17.49}
-//						   ];
 			
 			//if necessary, change the identifier to id instead of index
 			var connect = [{from: 0, to: 1},
@@ -119,13 +165,13 @@
 				}else{
 					pt2.link = ['l'+i];
 				}
-				console.log("node 1: "+'#n'+tmp.from);
+//				console.log("node 1: "+'#n'+tmp.from);
 				d3.select('#'+tmp.from).attr("fill", "red");
 				d3.select('#'+tmp.to).attr("fill", "red");
 				
 			}
 			
-			console.log(nodeData);
+//			console.log(nodeData);
 			
 			var lineAttrs = {
 				x1: function(d){ return d.x1*3;},
@@ -145,28 +191,86 @@
 						.data(lineData)
 						.enter()
 						.append("line")
-						.attr(lineAttrs);
+						.attr(lineAttrs)
+						;
 			
+			var currentScrollTop = d3.select('#currentScrollTop');
+			var SCROLL_LENGTH = content.getBoundingClientRect().height - HEIGHT;//scollable distance
+			var scrollTop = 0;
+    		var newScrollTop = 0;
+			
+			var lineScale = d3.scale.linear()//ref: https://www.dashingd3js.com/d3js-scales
+								.domain([0, SCROLL_LENGTH])
+								.range([0, 1.07])
+								.clamp(true);
+		
 			//animation on connection
 			lines.each(function(){
 				var dashlen = d3.select(this).attr("pathLength");
-				d3.select(this).attr("stroke-dasharray",  dashlen+ " "+dashlen)
-								.attr("stroke-dashoffset", dashlen)
-								.transition()
-								.delay(1000)
-								.duration(2000)
-								.ease("linear")
-								.attr("stroke-dashoffset", 0);
+				d3.select(this).attr("stroke-dasharray",  dashlen+ " "+dashlen).attr("opacity",0.5);
+
 			});
-				
-//			var node, lines, tmp_line;
-//			for(i = 0; i<lineData.length; i++){
-//					tmp_line = lineData[i];
-//					if(node.localeCompare(tmp_line.from == 0 ||node.localeCompare(tmp_line.to == 0){
-//						lines.push("#" + tmp_line.id);
-//					}
-//				}
 			
+			
+			
+			d3.select("#container").on("scroll.scroller", function() {
+				newScrollTop = d3.select("#container").node().scrollTop;//get the latest scrollTop
+				});
+    
+			//resetting all params - for resizing
+			var setDimensions = function() {
+			  WIDTH = window.innerWidth / 2;
+			  HEIGHT = window.innerHeight/2;
+			  SCROLL_LENGTH = d3.select("#content").node().getBoundingClientRect().height - HEIGHT;
+			  lineScale.domain([0, SCROLL_LENGTH]);
+			}
+    
+			var render = function() {
+			  if (scrollTop != newScrollTop) {
+				var diff = -newScrollTop + scrollTop;
+				scrollTop = newScrollTop//update scrollTop, needs to be done after container reacts to scroller.scroll
+
+				//update separate clock handles
+				var scales = lineScale(scrollTop);
+//				console.log(scales);
+//				var translate2 = 'translate(' + 0 + ',' + 0 + ')';
+				lines.each(function(){
+					var idx = parseInt(d3.select(this).attr("id")[1]);
+					var data1 = d3.select("#n" + connect[idx]["from"]);
+					var data2 = d3.select("#n" + connect[idx]["to"]);
+//					if(idx == 1){console.log("data", data1, data2);}
+					var x1 = parseInt(data1.attr("cx"));
+					var y1 = parseInt(data1.attr("cy"));
+					var x2 = parseInt(data2.attr("cx"));
+					var y2 = parseInt(data2.attr("cy"));
+//					if(idx == 1){console.log("old", x1, y1, x2, y2);}
+					var newx2 = x1 + (x2-x1)*scales;
+					var newy2 = y1 + (y2-y1)*scales;
+//					if(idx == 1){console.log(x1,(x2-x1)*scales, x1 + (x2-x1)*scales);}
+//					if(idx == 1){console.log(x1, y1, newx2, newy2);}
+					d3.select(this).attr('x2', newx2)
+									.attr('y2', newy2);
+				});
+				
+//				lines.attr('transform', translate +' scale(' + scales + ')');
+				 // 'translate(' + (WIDTH / 2) + ',' + (HEIGHT / 2)+ ')'
+//				lines.attr("transform",  translate );
+//				lines.attr("opacity", 0.5);
+
+				//ref: https://www.tutorialspoint.com/d3js/d3js_svg_transformation.htm
+
+				currentScrollTop.text(scrollTop)//not sure what this line is for, update currentScrollTop?
+			  }
+
+			  window.requestAnimationFrame(render)
+			}
+			window.requestAnimationFrame(render)
+
+			window.onresize = setDimensions
+			
+			
+			
+			//click event
 			var nd, node, ind, data;
 			nodes.each(function(){
 				d3.select(this).on("click", function(){
@@ -183,7 +287,7 @@
 							var lk = d3.select("#" + links[i]);
 //							console.log(lk.attr("opacity"));
 							var newOpacity =lk.attr("opacity")==0.5?0:0.5;
-							console.log("newOpac: "+ newOpacity);
+//							console.log("newOpac: "+ newOpacity);
 							lk.attr("opacity", newOpacity);
 						}
 					}
@@ -192,12 +296,8 @@
 			});
 		
 			
-		
-
-			
-
-				
-		</script>
+	
+		</script> 
 	
 	</body>
 
