@@ -4,21 +4,20 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-A visual introduction to block chain
-</title>
+    <title>Network</title>
 
     <link rel="shortcut icon" href="/static/app/global/favicon.ico">
-    <link rel="apple-touch-icon" href="img/r2d3-logo.png">
+<!--    <link rel="apple-touch-icon" href="img/r2d3-logo.png">-->
     <!-- Customized Bootstrap Cited from R2D3-->
     <link href="app/bootstrap.min.css" rel="stylesheet">
 	<link href="app/global_style.css" rel="stylesheet">
    
 
 <link href="app/decision_styles.css" rel="stylesheet">
-<script src="https://d3js.org/d3.v4.js"></script>
+<script src = "http://d3js.org/d3.v3.min.js"></script>
 
 
+<!--
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function(event) { 
     var dismissText = document.getElementById("dismiss-disclaimer")
@@ -34,39 +33,41 @@ A visual introduction to block chain
     dismissText.addEventListener("click", removeDisclaimer, false)
   });  
 </script>
-<style>
-  #resolution-disclaimer {
-    display: none;
-  }
-  
-  @media (max-width: 1023px) and (max-height: 767px) {
-    #resolution-disclaimer {
-      z-index: 10000;
-      display: block;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100vw;
-      background: rgba(0,0,0,0.85);
-    }
-  
-    #disclaimer-wrapper {
-      width: 95vw;
-      margin: 20px auto;
-      color: #fff;
-    }
-  
-    #dismiss-disclaimer {
-      text-decoration: underline;
-      cursor: pointer;
-      color: #777;
-    }
-  }
-</style>  
+-->
+	<style>
+	  #resolution-disclaimer {
+		display: none;
+	  }
+
+	  @media (max-width: 1023px) and (max-height: 767px) {
+		#resolution-disclaimer {
+		  z-index: 10000;
+		  display: block;
+		  position: fixed;
+		  bottom: 0;
+		  left: 0;
+		  width: 100vw;
+		  background: rgba(0,0,0,0.85);
+		}
+
+		#disclaimer-wrapper {
+		  width: 95vw;
+		  margin: 20px auto;
+		  color: #fff;
+		}
+
+		#dismiss-disclaimer {
+		  text-decoration: underline;
+		  cursor: pointer;
+		  color: #777;
+		}
+	  }
+	</style>  
 
 
 </head>
-  <body>
+	
+<body>
     <div id="header">
       <div class="container">
         <div class="row">
@@ -76,6 +77,8 @@ A visual introduction to block chain
         </div>
       </div>
     </div>
+	
+	
     
 
 <div class="container" id="main">
@@ -86,7 +89,7 @@ A visual introduction to block chain
 				<p class="small"><img style="height:1.2em;filter:contrast(1%);" alt="language:" src="img/world.png"/>: 
 					<select id="translation-selector" onChange="window.document.location.href=this.options[this.selectedIndex].value;">
 					<option value="/index.html">verbose</option>
-<!--						replace this with presentation mode in the future-->
+						replace this with presentation mode in the future
 					<option value="/index.html">presentation</option> 
 					</select></p>
 				<p>In machine learning, computers apply <strong>statistical learning</strong> techniques to automatically identify patterns in data. These techniques can  be used to make highly accurate predictions.</p>
@@ -98,7 +101,7 @@ A visual introduction to block chain
 		</div>
 
 	</div>
-</div>
+
 	<div class="row" id="split">
 		<div class="col-xs-4 col-xs-push-8">
 			<div id="my_dataviz"></div>
@@ -140,19 +143,12 @@ A visual introduction to block chain
 
 </div>
 
-<div class="static-container" id="shadow-scatterplot"></div>
-<div class="static-container" id="intro-scatterplot"></div>
-<div class="static-container" id="split-quality"></div>
-<div class="static-container" id="decision-tree"></div>
-<div class="static-container" id="train-vs-test"></div>
+	</div>
 
-<script src="dist/d3script.js"></script>
+<script src="dist/network.js"></script>
 
 
-<script type="text/javascript" src="dist/c814f45e5cce5d96ddf550688fefd942.js"></script>
-    
-<script src="/app/tree-training-set-98.js"></script>
-<script type="text/javascript" src="dist/24a2beb93032441d9bd16ce805264f95.js"></script>
+
 
   </body>
 </html>

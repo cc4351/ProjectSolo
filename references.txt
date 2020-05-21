@@ -3,3 +3,11 @@ D3.js related Resources:
 - https://observablehq.com/@d3/force-directed-graph
 - https://www.dashingd3js.com/table-of-contents
 - https://github.com/d3/d3/wiki/Tutorials
+
+Sliding Panel Visualizations:
+- https://codepen.io/saeedreza/pen/GgrEGX 
+- https://codyhouse.co/gem/sliding-panels-template
+
+HTML Pre-Processors:
+- https://www.geeksforgeeks.org/haml-html-pre-processor/
+- https://startae.com/blog/improve-your-development-workflow-using-html-preprocessors/
