@@ -1,0 +1,26 @@
+
+<!doctype html>
+<html>
+	<head>
+		<title>D3-10 Path</title>
+		<script src = "http://d3js.org/d3.v3.min.js"></script>
+
+	</head>
+	
+	<body>
+		<p>D3 practices</p>
+		<script>
+			function myFunc(data) {
+			console.log(data);
+		}
+
+		d3.json('file.json', function (data) {
+			var json = data;
+			myFunc(json);
+		});
+					
+		</script>
+	
+	</body>
+
+</html>

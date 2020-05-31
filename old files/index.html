@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>BlockChain</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+		<!--		experiment with CSS preprocessors-->
+		<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js" ></script>
+		<script src = "http://d3js.org/d3.v3.min.js"></script>
+		<style>
+		    body { 
+			  margin:0;
+			  position:fixed;
+			  top:0;
+			  right:0;
+			  bottom:0;
+			  left:0;
+			  font-family: Helvetica, Arial;
+			}
+/*			CSS position property: https://www.w3schools.com/css/css_positioning.asp*/
+			#network{
+			  position: relative;
+			  z-index: 20;
+			}
+			#network_graph{ 
+			  position: absolute; 
+/*			  top: 0; */
+/*			  left: 0; */
+/*			  width: 50%; */
+/*			  z-index: 50;*/
+			}
+			#network_na{ 
+			  position: absolute; 
+/*			  clear: both;*/
+/*			  top: 0; */
+			  right: 0; 
+/*			  width: 50%; */
+			  background-color: lightblue;
+/*			  z-index: 50;*/
+			}
+			.panel {
+			  width: 100%;
+			  padding-left: 20px;
+			  padding-top: 25vh;
+/*			  padding-bottom: 25vh;*/
+			}
+/*
+			.panel p {
+			  padding-right: 50%;
+			}
+			.panel:first-child {
+			  padding-top: 500vh;
+			}
+*/
+/*
+			.panel:last-child {
+			  padding-bottom: 45vh;
+			}
+*/
+			}
+		</style>
+
+	</head>
+	<body>
+		<div class="container-fluid" id="network">
+		  <div class="row" id="cen_net">
+<!--
+			  <div class="col-12 col-md-auto">
+					<div style="background: red; width: 300px;">
+						sidebar
+					</div>
+				</div>
+-->
+			<div class="col-sm-4">
+<!--		   <div id="network_graph">-->
+			<nav id="navbar-example3" class="navbar navbar-light bg-light">
+				<ul class="nav">
+				  <li class="nav-item">
+					<a class="nav-link active"  href="#idx1">beginning</a>
+				  </li>
+				  <li class="nav-item">
+					<a class="nav-link active" id ="network_graph" href="#idx2">test</a>
+				  </li>
+				</ul>
+				</nav>
+<!--				<p>"this is left"</p>-->
+			</div>
+			<div class="col-sm-8" id="network_na" style="height: 100vh; overflow-y: scroll" data-spy="scroll" data-target="#navbar-example3" data-offset="0">>
+<!--			  	<div class="col-sm-8" id="network_na">-->
+<!--		   <div id="network_na">-->
+				<p>"this is right"</p>
+				<div class="panel" id = "idx1"></div>
+				<div class="panel"></div>
+				<div class="panel"></div>
+				<div class="panel"></div>
+				<div class="panel" id = "idx2"></div>
+				<div class="panel"></div>
+				<div class="panel"></div>
+				<div class="panel"></div>
+			</div>
+<!--		</div>-->
+<!--		</div>-->
+<!--		<div class="container-fluid" id="network2">-->
+<!--		  <div class="row" id="dec_net">-->
+<!--
+			  <div style="background-color: aquamarine">
+				<p>lapis lazuli</p>
+			  </div>
+-->
+		  </div>
+		</div>
+<!--
+		<div>
+		    <div class="panel" style="background-color: aquamarine">
+				<p>lapis lazuli</p>
+			</div>
+		</div>
+-->
+		<script src="dist/network.js"></script>
+	</body>
+</html>
