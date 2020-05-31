@@ -9,7 +9,7 @@
 //see https://stackoverflow.com/questions/37443482/what-is-the-difference-between-window-innerwidth-and-screen-width for difference between window.innerWidth vs screen.width
 
 			var WIDTH = window.innerWidth / 2;
-			var HEIGHT = window.innerHeight/2;
+			var HEIGHT = window.innerHeight;
 
 			//center the d3 object in the middle of the right panel
 			var translate = 'translate(' + (WIDTH / 2) + ',' + (HEIGHT / 2) + ')';
@@ -191,7 +191,7 @@
 			
 			var lineScale = d3.scale.linear()//ref: https://www.dashingd3js.com/d3js-scales
 								.domain([0, SCROLL_LENGTH])
-								.range([0, 4])
+								.range([0, 1])
 								.clamp(true);
 		
 			//animation on connection
@@ -210,7 +210,7 @@
 			//resetting all params - for resizing
 			var setDimensions = function() {
 			  WIDTH = window.innerWidth/2 ;
-			  HEIGHT = window.innerHeight/2;
+			  HEIGHT = window.innerHeight;
 			  SCROLL_LENGTH = d3.select("#network_na").node().scrollHeight - HEIGHT;
 			  lineScale.domain([0, SCROLL_LENGTH]);
 			}
