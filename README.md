@@ -1,5 +1,8 @@
 ## ProjectSolo
 
+**Latest Update**
+Check out the latest_update folder
+
 **Browser Requirements**
   - bootstrap4 --> please use IE 9 and above
   - the files are developed and tested on Chrome v81.0.4044.138
