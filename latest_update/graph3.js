@@ -289,6 +289,9 @@ var render = function() {
 	function rescale(lines=[], connect=[], svgC, base, max=0){
 //		console.log(base);
 		var dif = scrollTop - base;
+		if(svgC == svg0){
+			dif +=40;
+		}
 		svgC.attr('transform','translate(' + svgC.attr("width")/8 + ',' + dif+ ')');
 		if(svgC == svg0){
 			nodes0.each(function(){
@@ -300,6 +303,7 @@ var render = function() {
 				}
 				
 			});
+			
 			return;
 		}
 		var scales = lineScale(scrollTop-base);
