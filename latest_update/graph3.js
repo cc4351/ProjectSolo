@@ -1,4 +1,3 @@
-
 var g_width = 300;
 var g_height = 800;
 
@@ -308,27 +307,55 @@ function click(nodes, nData){
 	});
 }
 
-function resizeNode(nodes){
+function resizeNode(){
 	var node, ind;
-	nodes.each(function(){
+	nodes1.each(function(){
 		node = this.id.split('_')[1];
 		ind = parseInt(String(node).replace("n", ""));
 		if (ind == 0){
-			repeat(this);
+			repeat(node);
 		}
 	})
 }
 
-function repeat(node){
-		d3.select(node).on("end", repeat(node))
-						.transition()
-						.duration(1000)
-						.attr("r", 10)
-						.transition()
-						.duration(1000)
-						.attr("r", 7);
-						//.each("end",repeat(node));
-						  // .on("end", repeat(node))
+function repeat(){
+	nodes1.each(function(){
+		var node = this.id.split("_")[1];
+		var ind = parseInt(String(node).replace("n", ""));
+		if (ind == 0){
+			d3.select(this).transition().duration(1000).attr("r", 10)
+				.each("end", function(){
+					d3.select(this).transition().duration(1000).attr("r", 7)
+					.each("end", function(){repeat();});
+				});
+		}
+		
+	});
+	nodes2.each(function(){
+		var node = this.id.split("_")[1];
+		var ind = parseInt(String(node).replace("n", ""));
+		if (ind == 0){
+			d3.select(this).transition().duration(1000).attr("r", 10)
+				.each("end", function(){
+					d3.select(this).transition().duration(1000).attr("r", 7)
+					.each("end", function(){repeat();});
+				});
+		}
+		
+	});
+	nodes3.each(function(){
+		var node = this.id.split("_")[1];
+		var ind = parseInt(String(node).replace("n", ""));
+		if (ind == 0){
+			d3.select(this).transition().duration(1000).attr("r", 10)
+				.each("end", function(){
+					d3.select(this).transition().duration(1000).attr("r", 7)
+					.each("end", function(){repeat();});
+				});
+		}
+		
+	});
+		
 }
 
 
@@ -337,7 +364,7 @@ function repeat(node){
 click(nodes1, nodeData1);
 click(nodes2, nodeData2);
 click(nodes3, nodeData3);
-resizeNode(nodes1);
+repeat();
 d3.select("#graph1").attr("align", "center");
 d3.select("#graph2").attr("align", "center");
 d3.select("#graph3").attr("align", "center");
