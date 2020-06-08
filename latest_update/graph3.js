@@ -1,11 +1,6 @@
-//var g_width = 300;
-//var g_height = 800;
-
 var svg0 = d3.select("#growth").append("svg")
 				 .attr("width", $(growth).width())
 				 .attr("height", 800);
-
-//svg0.attr("transform",'translate(' + 100 + ',' + 0+ ')');
 
 
 var svg1 = d3.select("#graph1").append("svg")
@@ -19,11 +14,6 @@ var svg2 = d3.select("#graph2").append("svg")
 var svg3 = d3.select("#graph3").append("svg")
 				 .attr("width", $(graph3).width())
 				 .attr("height", 800);
-
-//d3.select("#growth").attr("align", "center");
-//d3.select("#graph1").attr("align", "center");
-//d3.select("#graph2").attr("align", "center");
-//d3.select("#graph3").attr("align", "center");
 
 
 var nodeData = [{ x: 55, y: 59 },
@@ -189,6 +179,8 @@ var lineAttrs = {
 	x2: function(d){ return d.x2*3;},
 	y1: function(d){ return d.y1*3;},
 	y2: function(d){ return d.y2*3;},
+	from: function(d){ return d.from;},
+	to: function(d){ return d.to;},
 	stroke: "black",
 	"stroke-width": 2,
 	opacity: 0.5,
@@ -365,12 +357,18 @@ function click(nodes, nData){
 			data = nData[ind];
 			var newColor = d3.select(this).attr("fill") == "red"? nodeGray:"red";
 			d3.select(this).attr("fill", newColor);
-
+			var pt1, pt2, newOpacity;
 			if(data.hasOwnProperty("link")){
 				var links = data["link"];
 				for(i=0; i<links.length; i++){
 					var lk = d3.select("#" + links[i]);
-					var newOpacity =lk.attr("opacity")==0.5?0:0.5;
+                    pt1 = d3.select("#" + lk.attr("from"));
+					pt2 = d3.select("#"+ lk.attr("to"));
+					if(pt1.attr("fill") == nodeGray || pt2.attr("fill") == nodeGray){
+						newOpacity = 0;
+					}else{
+						newOpacity =lk.attr("opacity")==0.5?0:0.5;
+					}
 					lk.attr("opacity", newOpacity);
 				}
 			}
@@ -382,3 +380,25 @@ function click(nodes, nData){
 click(nodes1, nodeData1);
 click(nodes2, nodeData2);
 click(nodes3, nodeData3);
+
+//author: Mitali
+//function: node repeat
+function repeat(nodes){
+	nodes.each(function(){
+		var node = this.id.split("_")[1];
+		var ind = parseInt(String(node).replace("n", ""));
+		if (ind == 0){
+			d3.select(this).transition().duration(1000).attr("r", 10)
+				.each("end", function(){
+					d3.select(this).transition().duration(1000).attr("r", 7)
+					.each("end", function(){repeat(nodes);});
+				});
+		}
+		
+	});
+		
+}
+
+repeat(nodes1);
+repeat(nodes2);
+repeat(nodes3);
