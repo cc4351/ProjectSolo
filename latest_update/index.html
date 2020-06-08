@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Blockchain</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+		<!--		experiment with CSS preprocessors-->
+<!--		<link href="styles.less" type="text/css" rel="stylesheet/less"/>-->
+<!--		<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js" type="text/javascript"></script>-->
+		<script src = "http://d3js.org/d3.v3.min.js"></script>
+		<style>
+			:root{
+				--intro_h:20vh;
+				--h: 200vh;
+/*				--graph1_h: calc(var(--intro_height) + var(--h));*/
+			}
+			#intro{
+				background-color: gray;
+				height:var(--intro_h);
+			}
+			#first{
+				background-color: coral;
+				width: 55%;
+/*				height: 100%;*/
+			}
+			.white{
+				height:100vh;
+			}
+			#growth{
+				width:45%;
+				right:0;
+				top: var(--intro_h);
+				height: var(--h);
+/*				background-color: lightsteelblue;*/
+				position:absolute;
+				overflow: hidden;
+			}
+			#graph1{
+				width:45%;
+				right:0;
+				top: calc(var(--h) + var(--intro_h));
+				height: var(--h);
+/*				background-color: coral;*/
+				position:absolute;
+				overflow: hidden;
+			}
+			#graph2{
+				width:45%;
+				right:0;
+				top: calc(2*var(--h) + var(--intro_h));
+				height: var(--h);
+/*				background-color: skyblue;*/
+				position:absolute;
+/*				z-index: 20;*/
+				overflow: hidden;
+			}
+			#graph3{
+				width:45%;
+				right:0;
+				top: calc(3*var(--h) + var(--intro_h));
+				height: var(--h);
+/*				background-color: coral;*/
+				position:absolute;
+/*				z-index: 20;*/
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+<!--		addEventListener, scroll()-->
+<!--
+		<div class=container id="intro">
+			hello
+		</div>
+-->		<div class=container id="intro">hello</div>
+		<div class=container id="main">
+			<div class = row>
+				<div class='col-xs-5' id="first">
+					<p></p>
+					<h3>Three Types of Networks</h3>
+					<div class=white>place holder for centralized network</div>
+					<div class=white></div>
+					<div class=white>place holder for decentralized network</div>
+					<div class=white></div>
+					<div class=white>place holder for distributed network</div>
+					<div class=white></div>
+<!--					<div class=white></div>-->
+				</div>
+			</div>
+		</div>
+		<div class=container id="growth"></div>
+		<div class=container id="graph1"><p>graph1</p></div>
+			
+		<div class=container id="graph2">
+			<p>graph2</p>
+		</div>
+		<div class=container id="graph3">
+			<p>graph3</p>
+		</div>
+		<script src="graph3.js"></script>
+
+	</body>
+</html>
