@@ -111,6 +111,7 @@ var c3 = [{from: 0, to: 2},
 function cLine(connect, nData, idx){
 	var lineData = [];
 	var nodeData = nData;
+	var sumLen = 0;
 	for(i = 0; i<connect.length; i++){
 		var pt1, pt2, x1, x2, y1, y2, len, tmp;
 		pt1 = nodeData[connect[i].from];
@@ -120,6 +121,7 @@ function cLine(connect, nData, idx){
 		x2 = pt2.x;
 		y2 = pt2.y;
 		len = Math.sqrt((x1-x2)**2 + (y1-y2)**2);
+		sumLen += len;
 		tmp = {from: idx+"_"+"n"+connect[i].from, to: idx+"_"+"n"+connect[i].to, x1: x1, y1: y1, x2: x2, y2: y2, len: len, id: idx+"_"+"l"+i};
 		lineData.push(tmp);
 
@@ -138,17 +140,17 @@ function cLine(connect, nData, idx){
 		d3.select('#'+tmp.from).attr("fill", "red");
 		d3.select('#'+tmp.to).attr("fill", "red");
 	}
-	return [lineData, nodeData];
+	return [lineData, nodeData, sumLen];
 }
 
 //see https://stackoverflow.com/a/5344074/12144813 for JS shallow/deep copy
-var lineData1, nodeData1, lineData2, nodeData2, lineData3, nodeData3;
+var lineData1, nodeData1, lineData2, nodeData2, lineData3, nodeData3, sumLen1, sumLen2, sumLen3;
 nodeData1 = JSON.parse(JSON.stringify(nodeData));
 nodeData2 = JSON.parse(JSON.stringify(nodeData));
 nodeData3 = JSON.parse(JSON.stringify(nodeData));
-[lineData1, nodeData1] = cLine(c1, nodeData1, "svg1");
-[lineData2, nodeData2] = cLine(c2, nodeData2, "svg2");
-[lineData3, nodeData3] = cLine(c3, nodeData3, "svg3");
+[lineData1, nodeData1, sumLen1] = cLine(c1, nodeData1, "svg1");
+[lineData2, nodeData2, sumLen2] = cLine(c2, nodeData2, "svg2");
+[lineData3, nodeData3, sumLen3] = cLine(c3, nodeData3, "svg3");
 
 
 //for svg0
@@ -163,6 +165,7 @@ function cDist(centroid, nData){
 		max = len>max?len:max;
 		nData[i].cDist = len;
 	}
+
 	return [nData, max];
 }
 
@@ -274,12 +277,12 @@ nodes0.each(function(){
 	d3.select(this).attr("tol", tol+base0);
 });
 
-
+//refactor this code
 var render = function() {
   if (scrollTop != newScrollTop) {
 	scrollTop = newScrollTop//update scrollTop, needs to be done after container reacts to scroller.scroll
-	function rescale(lines=[], connect=[], svgC, base, max=0){
-//		console.log(base);
+	document.getElementById("scrollTop").innerHTML = null;
+	function rescale(lines=[], connect=[], svgC, sumLen = 0, base, bottom = base+400, max=0){
 		var dif = scrollTop - base;
 		if(svgC == svg0){
 			dif +=40;
@@ -299,6 +302,9 @@ var render = function() {
 			return;
 		}
 		var scales = lineScale(scrollTop-base);
+		if(scrollTop>= base && scrollTop < bottom){
+			document.getElementById("scrollTop").innerHTML=scales*sumLen;
+		}
 		lines.each(function(){
 			var idx = parseInt(this.id.split('_')[1].replace('l', ''));
 			var graph = this.id.split('_')[0];
@@ -329,13 +335,15 @@ var render = function() {
 
 		});
 		
-	}
-	  rescale([], [], svg0, base0, maxDist);
-	  rescale(lines1, c1, svg1, base1);
-	  rescale(lines2, c2, svg2, frameHeight+base1);
-	  rescale(lines3, c3, svg3, frameHeight*2+base1);
+	} 
 
-	currentScrollTop.text(scrollTop)//not sure what this line is for, update currentScrollTop?
+	  rescale([], [], svg0, 0, base0, base1, maxDist);
+	  rescale(lines1, c1, svg1, sumLen1, base1, frameHeight+base1);
+	  rescale(lines2, c2, svg2, sumLen2, frameHeight+base1, frameHeight*2+base1);
+	  rescale(lines3, c3, svg3, sumLen3, frameHeight*2+base1);
+      
+
+	currentScrollTop.text(scrollTop)//update currentScrollTop?
   }
 
   window.requestAnimationFrame(render)
@@ -345,9 +353,7 @@ window.requestAnimationFrame(render)
 window.onresize = setDimensions
 
 
-
 //click event
-
 function click(nodes, nData){
 	var nd, node, ind, data;
 	nodes.each(function(){

@@ -68,21 +68,26 @@
 /*				z-index: 20;*/
 				overflow: hidden;
 			}
+			#scrollTop{
+				right:0;
+				top:20vh;
+				position: fixed;
+			}
 		</style>
 	</head>
 	<body>
-<!--		addEventListener, scroll()-->
-<!--
-		<div class=container id="intro">
-			hello
-		</div>
--->		<div class=container id="intro">hello</div>
+
+	<div class=container id="intro">hello</div>
 		<div class=container id="main">
 			<div class = row>
 				<div class='col-xs-5' id="first">
 					<p></p>
 					<h3>Three Types of Networks</h3>
-					<div class=white>place holder for centralized network</div>
+					<div class=white>
+						<p>place holder for centralized network</p>
+						<span id = scrollTop></span>
+
+					</div>
 					<div class=white></div>
 					<div class=white>place holder for decentralized network</div>
 					<div class=white></div>
