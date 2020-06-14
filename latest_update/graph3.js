@@ -1,19 +1,24 @@
 var svg0 = d3.select("#growth").append("svg")
 				 .attr("width", $(growth).width())
-				 .attr("height", 800);
+				 .attr("height", 800)
+				 .attr("id", "svg0");
 
 
 var svg1 = d3.select("#graph1").append("svg")
 				 .attr("width", $(graph1).width())
-				 .attr("height", 800);
+				 .attr("height", 800)
+				 .attr("id", "svg1");
 		
 
 var svg2 = d3.select("#graph2").append("svg")
 				 .attr("width", $(graph2).width())
-				 .attr("height", 800);
+				 .attr("height", 800)
+				 .attr("id", "svg2");
+
 var svg3 = d3.select("#graph3").append("svg")
 				 .attr("width", $(graph3).width())
-				 .attr("height", 800);
+				 .attr("height", 800)
+				 .attr("id", "svg3");
 
 
 var nodeData = [{ x: 55, y: 59 },
@@ -152,6 +157,10 @@ nodeData3 = JSON.parse(JSON.stringify(nodeData));
 [lineData2, nodeData2, sumLen2] = cLine(c2, nodeData2, "svg2");
 [lineData3, nodeData3, sumLen3] = cLine(c3, nodeData3, "svg3");
 
+sumLen1 *= 3;
+sumLen2 *= 3;
+sumLen3 *= 3; 
+
 
 //for svg0
 var centroid = 0;
@@ -177,6 +186,7 @@ nodeData0.sort(function (a, b){
     return a.cDist-b.cDist;
 });
 
+//solve this *3 step
 var lineAttrs = {
 	x1: function(d){ return d.x1*3;},
 	x2: function(d){ return d.x2*3;},
@@ -188,7 +198,7 @@ var lineAttrs = {
 	"stroke-width": 2,
 	opacity: 0.5,
 	id: function(d){return d.id;},
-	pathLength: function(d){return d.len*3;}
+	standardLen: function(d){return d.len*3;}
 };
 
 function drawLine(svgC, lData, lAttrs){
@@ -257,6 +267,8 @@ var scrollTop = 0;
 var newScrollTop = 0;
 var currentScrollTop = d3.select('#currentScrollTop');
 var nodeGray = "rgb(100, 100, 100)";
+// var nodeGreen = "#718477";
+var nodeGreen = "green";
 
 window.addEventListener('scroll', function(e){
 	newScrollTop = window.scrollY;//get the latest scrollTop
@@ -277,11 +289,18 @@ nodes0.each(function(){
 	d3.select(this).attr("tol", tol+base0);
 });
 
+var bluePts = [6, 10];
+
+//implement a DFS path search here
+//ref: https://www.geeksforgeeks.org/count-possible-paths-two-vertices/
+function pathSearch(){}
+
+
 //refactor this code
 var render = function() {
   if (scrollTop != newScrollTop) {
 	scrollTop = newScrollTop//update scrollTop, needs to be done after container reacts to scroller.scroll
-	document.getElementById("scrollTop").innerHTML = null;
+	document.getElementById("scrollTop").innerHTML = null;//clear the "scrollTop" text
 	function rescale(lines=[], connect=[], svgC, sumLen = 0, base, bottom = base+400, max=0){
 		var dif = scrollTop - base;
 		if(svgC == svg0){
@@ -303,8 +322,17 @@ var render = function() {
 		}
 		var scales = lineScale(scrollTop-base);
 		if(scrollTop>= base && scrollTop < bottom){
-			document.getElementById("scrollTop").innerHTML=scales*sumLen;
+			var validSum = scales*sumLen;
 		}
+		var header = svgC.attr("id")+"_n";
+		if(scrollTop - base>scroll_length && scrollTop <bottom){
+			bluePts.forEach(ele => d3.select("#"+header+ele).attr("fill", nodeGreen).attr("bFlag", 1));
+			
+		}else{
+			bluePts.forEach(ele => d3.select("#"+header+ele).attr("fill", "red").attr("bFlag", 0));
+		}
+
+		//check if this part could be optimized by translate-transform
 		lines.each(function(){
 			var idx = parseInt(this.id.split('_')[1].replace('l', ''));
 			var graph = this.id.split('_')[0];
@@ -322,8 +350,6 @@ var render = function() {
 			var newLen = Math.sqrt((x1-newx2)**2 + (y1-newy2)**2);
 			d3.select(this).attr('x2', newx2)
 							.attr('y2', newy2)
-							.attr('x1', x1)
-							.attr('y1', y1)
 							.attr('stroke', "black")
 							.attr('stroke-width', 2)
 							.attr("opacity", 0.5)
@@ -331,23 +357,31 @@ var render = function() {
 			
 			if(data1.attr("fill") == nodeGray || data2.attr("fill") == nodeGray ){
 				d3.select(this).attr('opacity', 0);
+				if(typeof validSum != "undefined"){
+					validSum -= newLen;
+				}
 			}
 
 		});
+
+		if(typeof validSum != "undefined"){
+			document.getElementById("scrollTop").innerHTML=validSum;
+		}
 		
-	} 
+	}
 
-	  rescale([], [], svg0, 0, base0, base1, maxDist);
-	  rescale(lines1, c1, svg1, sumLen1, base1, frameHeight+base1);
-	  rescale(lines2, c2, svg2, sumLen2, frameHeight+base1, frameHeight*2+base1);
-	  rescale(lines3, c3, svg3, sumLen3, frameHeight*2+base1);
+    //needs some restructuring here
+	rescale([], [], svg0, 0, base0, base1, maxDist);
+	rescale(lines1, c1, svg1, sumLen1, base1, frameHeight+base1);
+	rescale(lines2, c2, svg2, sumLen2, frameHeight+base1, frameHeight*2+base1);
+	rescale(lines3, c3, svg3, sumLen3, frameHeight*2+base1);
       
-
 	currentScrollTop.text(scrollTop)//update currentScrollTop?
   }
 
   window.requestAnimationFrame(render)
 }
+
 window.requestAnimationFrame(render)
 
 window.onresize = setDimensions
@@ -361,7 +395,12 @@ function click(nodes, nData){
 			node = this.id.split('_')[1];
 			ind = parseInt(String(node).replace('n', ''));
 			data = nData[ind];
-			var newColor = d3.select(this).attr("fill") == "red"? nodeGray:"red";
+			if(bluePts.includes(ind) && d3.select(this).attr("bFlag") == 1){
+				var newColor = d3.select(this).attr("fill") == nodeGreen? nodeGray:nodeGreen;
+			}else{
+				var newColor = d3.select(this).attr("fill") == "red"? nodeGray:"red";
+			}
+			
 			d3.select(this).attr("fill", newColor);
 			var pt1, pt2, newOpacity;
 			if(data.hasOwnProperty("link")){
@@ -376,7 +415,16 @@ function click(nodes, nData){
 						newOpacity =lk.attr("opacity")==0.5?0:0.5;
 					}
 					lk.attr("opacity", newOpacity);
+					var tmpLen = parseFloat(lk.attr("pathlength"));
+					var numericalSum = parseFloat(document.getElementById("scrollTop").innerHTML);
+					if(newOpacity == 0.5){
+						numericalSum += tmpLen;
+					}else{
+						numericalSum -= tmpLen;
+					}
+					document.getElementById("scrollTop").innerHTML = numericalSum;
 				}
+					
 			}
 
 		});
