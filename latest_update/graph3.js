@@ -290,17 +290,65 @@ nodes0.each(function(){
 });
 
 var bluePts = [6, 10];
-
+var numV = nodeData.length;
 //implement a DFS path search here
 //ref: https://www.geeksforgeeks.org/count-possible-paths-two-vertices/
-function pathSearch(){}
+//ref: https://www.geeksforgeeks.org/count-total-ways-to-reach-destination-from-source-in-an-undirected-graph/?ref=leftbar-rightbar
+function countPaths(conn, numV, i, sink, visited){
+	// countPaths(conn, numV, src, sink, visited); 
+	if (i == sink) { 
+        return 1; 
+    }
+    var total = 0; 
+    for(let j = 0; j < numV; j++) { 
+        if (conn[i][j] == 1 && !visited[j]) { 
+            visited[j] = true; 
+            // Recursive function, for count ways
+            total += countPaths(conn, numV, j, sink, visited); 
+            // Backtracking 
+            // Make vertex unvisited 
+            visited[j] = false; 
+        } 
+    } 
+   
+    // Return total ways 
+    return total; 
+}
+//conn -> connection array
+//numV -> int, num of nodes in the graph
+//twoEnds -> starting and ending point of the path search
+function pathSearch(connData, numV, twoEnds, blockList=[]){
+	//initialized the connectivity matrix
+	var conn = [];
+	for(let i=0; i<numV; i++) {
+    	conn[i] = new Array(numV);
+    	conn[i].fill(0);
+	}
+	for(let i=0; i<connData.length;i++){
+		var link = connData[i];
+		if(blockList.includes(link.to) || blockList.includes(link.from))
+			continue;
+		conn[link.to][link.from] = 1;
+		conn[link.from][link.to] = 1;
+	}
+	var visited = Array(numV);
+	visited.fill(false);    
+    var src = twoEnds[0];
+    var sink = twoEnds[1];
+
+    visited[src] = true;
+    return countPaths(conn, numV, src, sink, visited); 
+}
+
+document.getElementById("path1").innerHTML = pathSearch(c1, numV, bluePts, []);
+document.getElementById("path2").innerHTML = pathSearch(c2, numV, bluePts, []);
+document.getElementById("path3").innerHTML = pathSearch(c3, numV, bluePts, []);
 
 
 //refactor this code
 var render = function() {
   if (scrollTop != newScrollTop) {
 	scrollTop = newScrollTop//update scrollTop, needs to be done after container reacts to scroller.scroll
-	document.getElementById("scrollTop").innerHTML = null;//clear the "scrollTop" text
 	function rescale(lines=[], connect=[], svgC, sumLen = 0, base, bottom = base+400, max=0){
 		var dif = scrollTop - base;
 		if(svgC == svg0){
@@ -365,7 +413,10 @@ var render = function() {
 		});
 
 		if(typeof validSum != "undefined"){
-			document.getElementById("scrollTop").innerHTML=validSum;
+			var elements = document.getElementsByClassName("scrollTop");
+			for(i = 0;i<elements.length; i++){
+				elements[i].innerHTML=validSum;
+			}
 		}
 		
 	}
@@ -390,9 +441,14 @@ window.onresize = setDimensions
 //click event
 function click(nodes, nData){
 	var nd, node, ind, data;
+	var seq;
+	var prevGray = []
 	nodes.each(function(){
 		d3.select(this).on("click", function(){
 			node = this.id.split('_')[1];
+			if(seq == null){ 
+				seq = this.id.split('_')[0].replace('svg', ''); 
+			}
 			ind = parseInt(String(node).replace('n', ''));
 			data = nData[ind];
 			if(bluePts.includes(ind) && d3.select(this).attr("bFlag") == 1){
@@ -400,11 +456,20 @@ function click(nodes, nData){
 			}else{
 				var newColor = d3.select(this).attr("fill") == "red"? nodeGray:"red";
 			}
-			
+			if(newColor == nodeGray){
+				prevGray.push(ind);
+			}else{
+				//ref: https://stackoverflow.com/a/5767357/12144813
+				const index = prevGray.indexOf(ind);
+				if (index > -1) {
+				  prevGray.splice(index, 1);
+				}
+			}
 			d3.select(this).attr("fill", newColor);
 			var pt1, pt2, newOpacity;
 			if(data.hasOwnProperty("link")){
 				var links = data["link"];
+			
 				for(i=0; i<links.length; i++){
 					var lk = d3.select("#" + links[i]);
                     pt1 = d3.select("#" + lk.attr("from"));
@@ -416,24 +481,35 @@ function click(nodes, nData){
 					}
 					lk.attr("opacity", newOpacity);
 					var tmpLen = parseFloat(lk.attr("pathlength"));
-					var numericalSum = parseFloat(document.getElementById("scrollTop").innerHTML);
+					var scrollOne = document.getElementsByClassName("scrollTop");
+					var numericalSum = parseFloat(scrollOne[0].innerHTML);
+					// console.log(numericalSum);
 					if(newOpacity == 0.5){
 						numericalSum += tmpLen;
 					}else{
 						numericalSum -= tmpLen;
 					}
-					document.getElementById("scrollTop").innerHTML = numericalSum;
+					for(let i=0; i<scrollOne.length; i++){
+						scrollOne[i].innerHTML = numericalSum;
+					}
+					
 				}
 					
 			}
+			var id = "path" + seq;
+			var tmp = [c1, c2, c3];
+			console.log(prevGray);
+			document.getElementById(id).innerHTML = pathSearch(tmp[seq-1], numV, bluePts, prevGray);
 
 		});
 	});
+	
 }
 
 click(nodes1, nodeData1);
 click(nodes2, nodeData2);
 click(nodes3, nodeData3);
+
 
 //author: Mitali
 //function: node repeat

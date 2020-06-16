@@ -68,11 +68,11 @@
 /*				z-index: 20;*/
 				overflow: hidden;
 			}
-			#dataPanel{
-				right:0;
-				top:20vh;
-				position: fixed;
+			.dataPanel{
+				top:70vh;
+				position: relative;
 			}
+
 		</style>
 	</head>
 	<body>
@@ -81,16 +81,32 @@
 		<div class=container id="main">
 			<div class = row>
 				<div class='col-xs-5' id="first">
-					<p></p>
 					<h3>Three Types of Networks</h3>
+					<div class=white>place holder for intro</div>
+					<div class=white></div>
 					<div class=white>
 						<p>place holder for centralized network</p>
-						<p id=dataPanel>total length of wires:<br><span id = scrollTop></span></p>
+						<div class=dataPanel>
+							<p>total length of wires:<br><span class = scrollTop></span><p>
+							<p><span id = path1></span> path(s) between the two highlighted points<p>
+						</div>
 					</div>
 					<div class=white></div>
-					<div class=white>place holder for decentralized network</div>
+					<div class=white>
+						<p>place holder for decentralized network</p>
+						<div class=dataPanel>
+							<p>total length of wires:<br><span class = scrollTop></span><p>
+							<p><span id = path2></span> path(s) between the two highlighted points<p>
+						</div>
+					</div>
 					<div class=white></div>
-					<div class=white>place holder for distributed network</div>
+					<div class=white>
+						<p>place holder for distributed network</p>
+						<div class=dataPanel>
+							<p>total length of wires:<br><span class = scrollTop></span><p>
+							<p><span id = path3></span> path(s) between the two highlighted points<p>
+						</div>
+					</div>
 					<div class=white></div>
 <!--					<div class=white></div>-->
 				</div>
@@ -98,7 +114,6 @@
 		</div>
 		<div class=container id="growth"></div>
 		<div class=container id="graph1"><p>graph1</p></div>
-			
 		<div class=container id="graph2">
 			<p>graph2</p>
 		</div>
