@@ -1,19 +1,16 @@
-var svg0 = d3.select("#growth").append("svg")
-				 .attr("width", $(growth).width())
-				 .attr("height", 800);
+var g_width = 300;
+var g_height = 800;
 
 
 var svg1 = d3.select("#graph1").append("svg")
-				 .attr("width", $(graph1).width())
-				 .attr("height", 800);
-		
-
+				 .attr("width", g_width)
+				 .attr("height", g_height);
 var svg2 = d3.select("#graph2").append("svg")
-				 .attr("width", $(graph2).width())
-				 .attr("height", 800);
+				 .attr("width", g_width)
+				 .attr("height", g_height);
 var svg3 = d3.select("#graph3").append("svg")
-				 .attr("width", $(graph3).width())
-				 .attr("height", 800);
+				 .attr("width", g_width)
+				 .attr("height", g_height);
 
 
 var nodeData = [{ x: 55, y: 59 },
@@ -71,7 +68,6 @@ var c2 = [{from: 0, to: 1},
 			{from: 2, to: 4},
 			{from: 3, to: 1}
 			];
-
 
 //distributed
 var c3 = [{from: 0, to: 2},
@@ -150,37 +146,11 @@ nodeData3 = JSON.parse(JSON.stringify(nodeData));
 [lineData2, nodeData2] = cLine(c2, nodeData2, "svg2");
 [lineData3, nodeData3] = cLine(c3, nodeData3, "svg3");
 
-
-//for svg0
-var centroid = 0;
-function cDist(centroid, nData){
-	var len;
-	var max = 0;
-	var cX = nData[centroid].x;
-	var cY = nData[centroid].y;
-	for(i = 0; i<nData.length; i++){
-		len = Math.sqrt((nData[i].x-cX)**2 + (nData[i].y-cY)**2);
-		max = len>max?len:max;
-		nData[i].cDist = len;
-	}
-	return [nData, max];
-}
-
-var nodeData0 = JSON.parse(JSON.stringify(nodeData));
-var maxDist;
-[nodeData0, maxDist] = cDist(centroid, nodeData0);
-//sort nodeData0 by distance from center
-nodeData0.sort(function (a, b){
-    return a.cDist-b.cDist;
-});
-
 var lineAttrs = {
 	x1: function(d){ return d.x1*3;},
 	x2: function(d){ return d.x2*3;},
 	y1: function(d){ return d.y1*3;},
 	y2: function(d){ return d.y2*3;},
-	from: function(d){ return d.from;},
-	to: function(d){ return d.to;},
 	stroke: "black",
 	"stroke-width": 2,
 	opacity: 0.5,
@@ -212,11 +182,6 @@ var circleAttrs = {
 			  return "black";
 		  }
 	  },
-	  cDist: function(d){
-		  if(d.cDist){
-			  return d.cDist;
-		  }
-	  },
 	  r: 7,
   };
 
@@ -233,17 +198,12 @@ function drawCircle(svgC, nData, cAttrs, idx){
 
 	return nodes;
 }
-var nodes0 = drawCircle(svg0, nodeData0, circleAttrs, "svg0");
+
 var nodes1 = drawCircle(svg1, nodeData1, circleAttrs, "svg1");
 var nodes2 = drawCircle(svg2, nodeData2, circleAttrs, "svg2");
 var nodes3 = drawCircle(svg3, nodeData3, circleAttrs, "svg3");
 
-nodes0.attr("opacity", 0);
-
 //requires some fixing later
-var base0 = $("#intro").show().length==0?0:$(intro).height();
-var base1 = $("#growth").show().length==0?base0:base0+$(growth).height();
-//console.log(base0);
 var frameHeight = d3.select("#graph1").node().scrollHeight;
 var scroll_length = frameHeight/4;
 var lineScale = d3.scale.linear()//ref: https://www.dashingd3js.com/d3js-scales
@@ -266,38 +226,10 @@ var setDimensions = function() {
   lineScale.domain([0, scroll_length]);		  
 }
 
-var segment = $(growth).height()/(nodes0[0].length+7);
-var idx, tol;
-nodes0.each(function(){
-	idx = parseInt(this.id.split('_')[1].replace('n', ''));
-	tol = idx*segment;
-	d3.select(this).attr("tol", tol+base0);
-});
-
-
 var render = function() {
   if (scrollTop != newScrollTop) {
 	scrollTop = newScrollTop//update scrollTop, needs to be done after container reacts to scroller.scroll
-	function rescale(lines=[], connect=[], svgC, base, max=0){
-//		console.log(base);
-		var dif = scrollTop - base;
-		if(svgC == svg0){
-			dif +=40;
-		}
-		svgC.attr('transform','translate(' + svgC.attr("width")/8 + ',' + dif+ ')');
-		if(svgC == svg0){
-			nodes0.each(function(){
-				if(scrollTop >= d3.select(this).attr("tol")){
-					d3.select(this).attr("opacity", 0.8).attr("fill", "red");
-				}
-				if(scrollTop < d3.select(this).attr("tol")){
-					d3.select(this).attr("opacity", 0.1).attr("fill", "black");
-				}
-				
-			});
-			
-			return;
-		}
+	function rescale(lines, connect, svgC, base){
 		var scales = lineScale(scrollTop-base);
 		lines.each(function(){
 			var idx = parseInt(this.id.split('_')[1].replace('l', ''));
@@ -328,12 +260,13 @@ var render = function() {
 			}
 
 		});
-		
+		var dif = scrollTop - base;
+		svgC.attr('transform','translate(' + 0 + ',' + dif+ ')');
 	}
-	  rescale([], [], svg0, base0, maxDist);
-	  rescale(lines1, c1, svg1, base1);
-	  rescale(lines2, c2, svg2, frameHeight+base1);
-	  rescale(lines3, c3, svg3, frameHeight*2+base1);
+
+	  rescale(lines1, c1, svg1, 0);
+	  rescale(lines2, c2, svg2, frameHeight);
+	  rescale(lines3, c3, svg3, frameHeight*2);
 
 	currentScrollTop.text(scrollTop)//not sure what this line is for, update currentScrollTop?
   }
@@ -354,21 +287,18 @@ function click(nodes, nData){
 		d3.select(this).on("click", function(){
 			node = this.id.split('_')[1];
 			ind = parseInt(String(node).replace('n', ''));
+			if (ind == 0){
+				this.interrupt();
+			}
 			data = nData[ind];
 			var newColor = d3.select(this).attr("fill") == "red"? nodeGray:"red";
 			d3.select(this).attr("fill", newColor);
-			var pt1, pt2, newOpacity;
+
 			if(data.hasOwnProperty("link")){
 				var links = data["link"];
 				for(i=0; i<links.length; i++){
 					var lk = d3.select("#" + links[i]);
-                    pt1 = d3.select("#" + lk.attr("from"));
-					pt2 = d3.select("#"+ lk.attr("to"));
-					if(pt1.attr("fill") == nodeGray || pt2.attr("fill") == nodeGray){
-						newOpacity = 0;
-					}else{
-						newOpacity =lk.attr("opacity")==0.5?0:0.5;
-					}
+					var newOpacity =lk.attr("opacity")==0.5?0:0.5;
 					lk.attr("opacity", newOpacity);
 				}
 			}
@@ -377,21 +307,50 @@ function click(nodes, nData){
 	});
 }
 
-click(nodes1, nodeData1);
-click(nodes2, nodeData2);
-click(nodes3, nodeData3);
+function resizeNode(){
+	var node, ind;
+	nodes1.each(function(){
+		node = this.id.split('_')[1];
+		ind = parseInt(String(node).replace("n", ""));
+		if (ind == 0){
+			repeat(node);
+		}
+	})
+}
 
-//author: Mitali
-//function: node repeat
-function repeat(nodes){
-	nodes.each(function(){
+function repeat(){
+	nodes1.each(function(){
 		var node = this.id.split("_")[1];
 		var ind = parseInt(String(node).replace("n", ""));
 		if (ind == 0){
 			d3.select(this).transition().duration(1000).attr("r", 10)
 				.each("end", function(){
 					d3.select(this).transition().duration(1000).attr("r", 7)
-					.each("end", function(){repeat(nodes);});
+					.each("end", function(){repeat();});
+				});
+		}
+		
+	});
+	nodes2.each(function(){
+		var node = this.id.split("_")[1];
+		var ind = parseInt(String(node).replace("n", ""));
+		if (ind == 0){
+			d3.select(this).transition().duration(1000).attr("r", 10)
+				.each("end", function(){
+					d3.select(this).transition().duration(1000).attr("r", 7)
+					.each("end", function(){repeat();});
+				});
+		}
+		
+	});
+	nodes3.each(function(){
+		var node = this.id.split("_")[1];
+		var ind = parseInt(String(node).replace("n", ""));
+		if (ind == 0){
+			d3.select(this).transition().duration(1000).attr("r", 10)
+				.each("end", function(){
+					d3.select(this).transition().duration(1000).attr("r", 7)
+					.each("end", function(){repeat();});
 				});
 		}
 		
@@ -399,6 +358,13 @@ function repeat(nodes){
 		
 }
 
-repeat(nodes1);
-repeat(nodes2);
-repeat(nodes3);
+
+
+
+click(nodes1, nodeData1);
+click(nodes2, nodeData2);
+click(nodes3, nodeData3);
+repeat();
+d3.select("#graph1").attr("align", "center");
+d3.select("#graph2").attr("align", "center");
+d3.select("#graph3").attr("align", "center");
