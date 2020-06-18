@@ -13,6 +13,9 @@
 <!--		<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js" type="text/javascript"></script>-->
 		<script src = "http://d3js.org/d3.v3.min.js"></script>
 		<style>
+			p.menu{
+				text-align:center;
+			}
 			:root{
 				--intro_h:20vh;
 				--h: 200vh;
@@ -68,33 +71,59 @@
 /*				z-index: 20;*/
 				overflow: hidden;
 			}
+			.dataPanel{
+				top:70vh;
+				position: relative;
+			}
+
 		</style>
+
+		
 	</head>
 	<body>
-<!--		addEventListener, scroll()-->
-<!--
-		<div class=container id="intro">
-			hello
-		</div>
--->		<div class=container id="intro">hello</div>
+
+	<div class=container id="intro">hello</div>
+	<p class="menu">Learning Mode : <select id="mode-selector" onChange="window.document.location.href=this.options[this.selectedIndex].value;">
+		<option value="index.html">22 min</a>
+		<option value="alt_index.html">45 min</a>
+		</select></p>
 		<div class=container id="main">
 			<div class = row>
 				<div class='col-xs-5' id="first">
-					<p></p>
 					<h3>Three Types of Networks</h3>
-					<div class=white>place holder for centralized network</div>
+					<div class=white>place holder for intro</div>
 					<div class=white></div>
-					<div class=white>place holder for decentralized network</div>
+					<div class=white>
+						<p>place holder for centralized network</p>
+						<div class=dataPanel>
+							<p>total length of wires:<br><span class = scrollTop></span><p>
+							<p><span id = path1></span> path(s) between the two highlighted points<p>
+						</div>
+					</div>
 					<div class=white></div>
-					<div class=white>place holder for distributed network</div>
+					<div class=white>
+						<p>place holder for decentralized network</p>
+						<div class=dataPanel>
+							<p>total length of wires:<br><span class = scrollTop></span><p>
+							<p><span id = path2></span> path(s) between the two highlighted points<p>
+						</div>
+					</div>
+					<div class=white></div>
+					<div class=white>
+						<p>place holder for distributed network</p>
+						<div class=dataPanel>
+							<p>total length of wires:<br><span class = scrollTop></span><p>
+							<p><span id = path3></span> path(s) between the two highlighted points<p>
+						</div>
+					</div>
 					<div class=white></div>
 <!--					<div class=white></div>-->
 				</div>
 			</div>
+			
 		</div>
 		<div class=container id="growth"></div>
 		<div class=container id="graph1"><p>graph1</p></div>
-			
 		<div class=container id="graph2">
 			<p>graph2</p>
 		</div>
