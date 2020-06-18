@@ -349,7 +349,7 @@ document.getElementById("path3").innerHTML = pathSearch(c3, numV, bluePts, []);
 var render = function() {
   if (scrollTop != newScrollTop) {
 	scrollTop = newScrollTop//update scrollTop, needs to be done after container reacts to scroller.scroll
-	function rescale(lines=[], connect=[], svgC, sumLen = 0, base, bottom = base+400, max=0){
+	function rescale(lines=[], connect=[], svgC, sumLen = 0, base, bottom = base+800, max=0){
 		var dif = scrollTop - base;
 		if(svgC == svg0){
 			dif +=40;
