@@ -1,24 +1,24 @@
 //initialize svgs and bind with DOM elements
 var svg0 = d3.select("#growth").append("svg")
 				 .attr("width", $(growth).width())
-				 .attr("height", 800)
+				 .attr("height", $(growth).height())
 				 .attr("id", "svg0");
 
 
 var svg1 = d3.select("#graph1").append("svg")
 				 .attr("width", $(graph1).width())
-				 .attr("height", 800)
+				 .attr("height", $(graph1).height())
 				 .attr("id", "svg1");
 		
 
 var svg2 = d3.select("#graph2").append("svg")
 				 .attr("width", $(graph2).width())
-				 .attr("height", 800)
+				 .attr("height", $(graph2).height())
 				 .attr("id", "svg2");
 
 var svg3 = d3.select("#graph3").append("svg")
 				 .attr("width", $(graph3).width())
-				 .attr("height", 800)
+				 .attr("height", $(graph3).height())
 				 .attr("id", "svg3");
 
 
@@ -269,7 +269,7 @@ nodes0.attr("opacity", 0);
 //requires some fixing later
 var base0 = $("#intro").show().length==0?0:$(intro).height();
 var base1 = $("#growth").show().length==0?base0:base0+$(growth).height();
-var frameHeight = d3.select("#graph1").node().scrollHeight;
+var frameHeight = $("#graph1").height();
 var scroll_length = frameHeight/4;
 var lineScale = d3.scale.linear()//ref: https://www.dashingd3js.com/d3js-scales
 				  .domain([0, scroll_length])
@@ -287,7 +287,7 @@ window.addEventListener('scroll', function(e){
 
 //resetting all params - for resizing
 var setDimensions = function() {
-  frameHeight = d3.select("#graph1").node().scrollHeight;
+  frameHeight = $("#graph1").height();
   scroll_length =frameHeight/4;
   lineScale.domain([0, scroll_length]);		  
 }
@@ -304,7 +304,6 @@ nodes0.each(function(){
 var bluePts = [6, 10];
 var numV = nodeData.length;
 //implement a DFS path search here
-//ref: https://www.geeksforgeeks.org/count-possible-paths-two-vertices/
 //ref: https://www.geeksforgeeks.org/count-total-ways-to-reach-destination-from-source-in-an-undirected-graph/?ref=leftbar-rightbar
 function countPaths(conn, numV, i, sink, visited){
 	if (i == sink) { 
@@ -328,7 +327,7 @@ function countPaths(conn, numV, i, sink, visited){
 //conn -> connection array
 //numV -> int, num of nodes in the graph
 //twoEnds -> starting and ending point of the path search
-function pathSearch(connData, numV, twoEnds, blockList=[]){
+function pathSearch(connData, numV, twoEnds, blockList=new Set()){
 	//initialized the connectivity matrix
 	var conn = [];
 	for(let i=0; i<numV; i++) {
@@ -337,7 +336,7 @@ function pathSearch(connData, numV, twoEnds, blockList=[]){
 	}
 	for(let i=0; i<connData.length;i++){
 		var link = connData[i];
-		if(blockList.includes(link.to) || blockList.includes(link.from))
+		if(blockList.has(link.to) || blockList.has(link.from))
 			continue;
 		conn[link.to][link.from] = 1;
 		conn[link.from][link.to] = 1;
@@ -351,54 +350,64 @@ function pathSearch(connData, numV, twoEnds, blockList=[]){
     return countPaths(conn, numV, src, sink, visited); 
 }
 
-document.getElementById("path1").innerHTML = pathSearch(c1, numV, bluePts, []);
-document.getElementById("path2").innerHTML = pathSearch(c2, numV, bluePts, []);
-document.getElementById("path3").innerHTML = pathSearch(c3, numV, bluePts, []);
+document.getElementById("path1").innerHTML = pathSearch(c1, numV, bluePts);
+document.getElementById("path2").innerHTML = pathSearch(c2, numV, bluePts);
+document.getElementById("path3").innerHTML = pathSearch(c3, numV, bluePts);
 
 
-//refactor this code
-//problem1: rescale() function takes in too much input => split into multiple funcs
-//problem2: attempt again to use transform-translate instead of shrinking the distance by hand
-//problem3: the render() function overall is too long => is it possible to break it down
-//minor improv: add some comments for readability
 var render = function() {
   if (scrollTop != newScrollTop) {
 	scrollTop = newScrollTop//update scrollTop, needs to be done after container reacts to scroller.scroll
-	//bottom = svgC.length + base
-	//change base => top
-	//single out the svg0
-	function rescale(lines=[], connect=[], svgC, sumLen = 0, base, bottom = base+800, max=0){
-		var dif = scrollTop - base;
-		if(svgC == svg0){
-			dif +=40;
-		}
-		svgC.attr('transform','translate(' + svgC.attr("width")/8 + ',' + dif+ ')');
-		if(svgC == svg0){
-			nodes0.each(function(){
-				if(scrollTop >= d3.select(this).attr("tol")){
-					d3.select(this).attr("opacity", 0.8).attr("fill", "red");
-				}
-				if(scrollTop < d3.select(this).attr("tol")){
-					d3.select(this).attr("opacity", 0.1).attr("fill", "black");
-				}
-				
-			});
+
+	function introScale(svgC, top, max=0){
+		svgC = "#" + svgC;
+		var bottom = $(svgC).height() + top;
+		var dif = scrollTop - top + 40;
+		d3.select(svgC).attr('transform','translate(' + d3.select(svgC).attr("width")/8 + ',' + dif+ ')');
+
+		nodes0.each(function(){
+			if(scrollTop >= d3.select(this).attr("tol")){
+				d3.select(this).attr("opacity", 0.8).attr("fill", "red");
+			}
+			if(scrollTop < d3.select(this).attr("tol")){
+				d3.select(this).attr("opacity", 0.1).attr("fill", "black");
+			}
 			
-			return;
-		}
-		var scales = lineScale(scrollTop-base);
-		if(scrollTop>= base && scrollTop < bottom){
+		});
+		
+	}
+
+	function rescale(lines=[], connect=[], svgC, sumLen = 0, top){
+		svgC = "#" + svgC;
+		var bottom = $(svgC).height() + top;
+		var dif = scrollTop - top;
+		//translate the graph down as the user scroll
+		d3.select(svgC).attr('transform','translate(' + d3.select(svgC).attr("width")/8 + ',' + dif+ ')');
+		var scales = lineScale(scrollTop-top);//scaling factor
+		//scale the sum of length by the scaling factor
+		if(scrollTop>= top && scrollTop < bottom){
 			var validSum = scales*sumLen;
 		}
-		var header = svgC.attr("id")+"_n";
-		if(scrollTop - base>scroll_length && scrollTop <bottom){
-			bluePts.forEach(ele => d3.select("#"+header+ele).attr("fill", nodeGreen).attr("bFlag", 1));
+		var header = d3.select(svgC).attr("id")+"_n";
+
+		//color the two designated dots green if the graph is currently in range
+		//otherwise color them red
+		if(scrollTop - top>scroll_length && scrollTop <bottom){
+			bluePts.forEach(ele => {
+				var oriColor = d3.select("#"+header+ele).attr("fill");
+				if(oriColor != nodeGray){d3.select("#"+header+ele).attr("fill", nodeGreen);}
+				d3.select("#"+header+ele).attr("bFlag", 1);
+			});
 			
 		}else{
-			bluePts.forEach(ele => d3.select("#"+header+ele).attr("fill", "red").attr("bFlag", 0));
+			bluePts.forEach(ele => {
+				var oriColor = d3.select("#"+header+ele).attr("fill");
+				if(oriColor != nodeGray){d3.select("#"+header+ele).attr("fill", "red");}
+				d3.select("#"+header+ele).attr("bFlag", 0);
+			});
 		}
 
-		//check if this part could be optimized by translate-transform
+		//scale each line by the scaling factor
 		lines.each(function(){
 			var idx = parseInt(this.id.split('_')[1].replace('l', ''));
 			var graph = this.id.split('_')[0];
@@ -420,7 +429,7 @@ var render = function() {
 							.attr('stroke-width', 2)
 							.attr("opacity", 0.5)
 							.attr("pathlength", newLen);
-			
+			//if any of the two nodes is gray, set opacity to 0
 			if(data1.attr("fill") == nodeGray || data2.attr("fill") == nodeGray ){
 				d3.select(this).attr('opacity', 0);
 				if(typeof validSum != "undefined"){
@@ -429,7 +438,8 @@ var render = function() {
 			}
 
 		});
-
+        
+        //update the total length of wire for the graph in scope
 		if(typeof validSum != "undefined"){
 			var elements = document.getElementsByClassName("scrollTop");
 			for(i = 0;i<elements.length; i++){
@@ -439,11 +449,10 @@ var render = function() {
 		
 	}
 
-    //needs some restructuring here
-	rescale([], [], svg0, 0, base0, base1, maxDist);
-	rescale(lines1, c1, svg1, sumLen1, base1, frameHeight+base1);
-	rescale(lines2, c2, svg2, sumLen2, frameHeight+base1, frameHeight*2+base1);
-	rescale(lines3, c3, svg3, sumLen3, frameHeight*2+base1);
+	introScale("svg0", base0, maxDist);
+	rescale(lines1, c1, "svg1", sumLen1, base1);
+	rescale(lines2, c2, "svg2", sumLen2, frameHeight+base1);
+	rescale(lines3, c3, "svg3", sumLen3, frameHeight*2+base1);
       
 	currentScrollTop.text(scrollTop)//update currentScrollTop?
   }
@@ -464,28 +473,27 @@ window.onresize = setDimensions
 function click(nodes, nData){
 	var nd, node, ind, data;
 	var seq;
-	var prevGray = []
+	var prevGray = new Set();
 	nodes.each(function(){
 		d3.select(this).on("click", function(){
 			node = this.id.split('_')[1];
+			//get the corresponding svg name
 			if(seq == null){ 
 				seq = this.id.split('_')[0].replace('svg', ''); 
 			}
 			ind = parseInt(String(node).replace('n', ''));
 			data = nData[ind];
+			//color alternating between green/red and gray
 			if(bluePts.includes(ind) && d3.select(this).attr("bFlag") == 1){
 				var newColor = d3.select(this).attr("fill") == nodeGreen? nodeGray:nodeGreen;
 			}else{
 				var newColor = d3.select(this).attr("fill") == "red"? nodeGray:"red";
 			}
+			//update the prevGray set according to the new color
 			if(newColor == nodeGray){
-				prevGray.push(ind);
+				prevGray.add(ind);
 			}else{
-				//ref: https://stackoverflow.com/a/5767357/12144813
-				const index = prevGray.indexOf(ind);
-				if (index > -1) {
-				  prevGray.splice(index, 1);
-				}
+				prevGray.delete(ind);
 			}
 			d3.select(this).attr("fill", newColor);
 			var pt1, pt2, newOpacity;
@@ -493,22 +501,22 @@ function click(nodes, nData){
 				var links = data["link"];
 			
 				for(i=0; i<links.length; i++){
+					//new opacity for links associated with the clicked node
 					var lk = d3.select("#" + links[i]);
                     pt1 = d3.select("#" + lk.attr("from"));
 					pt2 = d3.select("#"+ lk.attr("to"));
-					if(pt1.attr("fill") == nodeGray || pt2.attr("fill") == nodeGray){
-						newOpacity = 0;
-					}else{
-						newOpacity =lk.attr("opacity")==0.5?0:0.5;
-					}
+					var oldOpacity = lk.attr("opacity");
+					var decision = (pt1.attr("fill") == nodeGray || pt2.attr("fill") == nodeGray);
+					newOpacity = decision?0:0.5;
 					lk.attr("opacity", newOpacity);
+					//update the sum of total length
 					var tmpLen = parseFloat(lk.attr("pathlength"));
 					var scrollOne = document.getElementsByClassName("scrollTop");
 					var numericalSum = parseFloat(scrollOne[0].innerHTML);
-					// console.log(numericalSum);
-					if(newOpacity == 0.5){
+
+					if(newOpacity>oldOpacity){
 						numericalSum += tmpLen;
-					}else{
+					}else if(newOpacity<oldOpacity){
 						numericalSum -= tmpLen;
 					}
 					for(let i=0; i<scrollOne.length; i++){
@@ -520,7 +528,6 @@ function click(nodes, nData){
 			}
 			var id = "path" + seq;
 			var tmp = [c1, c2, c3];
-			// console.log(prevGray);
 			document.getElementById(id).innerHTML = pathSearch(tmp[seq-1], numV, bluePts, prevGray);
 
 		});
