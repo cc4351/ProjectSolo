@@ -22,3 +22,7 @@ On Centralized, Decentralized, and Distributed Networks:
 Blockchain Is A Type of Distributed Ledger
 - https://towardsdatascience.com/the-difference-between-blockchains-distributed-ledger-technology-42715a0fa92
 
+k shortest paths:
+- https://en.wikipedia.org/wiki/K_shortest_path_routing#:~:text=The%20k%20shortest%20path%20routing,the%20loopless%20k%20shortest%20paths.
+- 
+

@@ -2,23 +2,39 @@
 var svg0 = d3.select("#growth").append("svg")
 				 .attr("width", $(growth).width())
 				 .attr("height", $(growth).height())
+				 .attr("x", 0)
+				 .attr("y", 0)
+				 .attr("viewBox", "0 0 "+ $(growth).width() + " "+$(growth).height())
+				 .attr("preserveAspectRatio", "xMinYMin meet")
 				 .attr("id", "svg0");
 
 
 var svg1 = d3.select("#graph1").append("svg")
 				 .attr("width", $(graph1).width())
 				 .attr("height", $(graph1).height())
+				 .attr("x", 0)
+				 .attr("y", 0)
+				 .attr("viewBox", "0 0 "+ $(graph1).width() + " "+$(graph1).height())
+				 .attr("preserveAspectRatio", "xMinYMin meet")
 				 .attr("id", "svg1");
 		
 
 var svg2 = d3.select("#graph2").append("svg")
 				 .attr("width", $(graph2).width())
 				 .attr("height", $(graph2).height())
+				 .attr("x", 0)
+				 .attr("y", 0)
+				 .attr("viewBox", "0 0 "+ $(graph2).width() + " "+$(graph2).height())
+				 .attr("preserveAspectRatio", "xMinYMin meet")
 				 .attr("id", "svg2");
 
 var svg3 = d3.select("#graph3").append("svg")
 				 .attr("width", $(graph3).width())
 				 .attr("height", $(graph3).height())
+				 .attr("x", 0)
+				 .attr("y", 0)
+				 .attr("viewBox", "0 0 "+ $(graph3).width() + " "+$(graph3).height())
+				 .attr("preserveAspectRatio", "xMinYMin meet")
 				 .attr("id", "svg3");
 
 
@@ -285,13 +301,6 @@ window.addEventListener('scroll', function(e){
 	newScrollTop = window.scrollY;//get the latest scrollTop
 });
 
-//resetting all params - for resizing
-var setDimensions = function() {
-  frameHeight = $("#graph1").height();
-  scroll_length =frameHeight/4;
-  lineScale.domain([0, scroll_length]);		  
-}
-
 var segment = $(growth).height()/(nodes0[0].length+7);
 var idx, tol;
 //set the threshold for appearance for each node in svg0
@@ -461,6 +470,21 @@ var render = function() {
 }
 
 window.requestAnimationFrame(render)
+
+
+//resetting all params - for resizing
+var setDimensions = function() {
+  frameHeight = $("#graph1").height();
+  scroll_length =frameHeight/4;
+  lineScale.domain([0, scroll_length]);		  
+  // console.log("resize here");
+  svg0.attr("width", $(growth).width()).attr("height", $(growth).height());
+  svg1.attr("width", $(graph1).width()).attr("height", $(graph1).height());
+  svg2.attr("width", $(graph2).width()).attr("height", $(graph2).height());
+  svg3.attr("width", $(graph3).width()).attr("height", $(graph3).height());
+			
+}
+
 
 window.onresize = setDimensions
 
