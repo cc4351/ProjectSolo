@@ -371,7 +371,7 @@ var render = function() {
 	function introScale(svgC, top, max=0){
 		svgC = "#" + svgC;
 		var bottom = $(svgC).height() + top;
-		var dif = scrollTop - top + 40;
+		var dif = scrollTop - top;
 		d3.select(svgC).attr('transform','translate(' + d3.select(svgC).attr("width")/8 + ',' + dif+ ')');
 
 		nodes0.each(function(){
@@ -585,3 +585,17 @@ function repeat(nodes){
 repeat(nodes1);
 repeat(nodes2);
 repeat(nodes3);
+
+
+// progress bar
+var element = document.documentElement,
+  body = document.body,
+  scrollT = 'scrollTop',
+  scrollH = 'scrollHeight',
+  progress = document.querySelector('.progress-bar'),
+  scroll;
+
+document.addEventListener('scroll', function() {
+	scroll = (element[scrollT]||body[scrollT]) / ((element[scrollH]||body[scrollH]) - element.clientHeight) * 100;
+	progress.style.setProperty('--scroll', scroll + '%');
+	});

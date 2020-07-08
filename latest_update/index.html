@@ -12,104 +12,52 @@
 <!--		<link href="styles.less" type="text/css" rel="stylesheet/less"/>-->
 <!--		<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js" type="text/javascript"></script>-->
 		<script src = "http://d3js.org/d3.v3.min.js"></script>
-		<style>
-			p.menu{
-				text-align:center;
-			}
-			:root{
-				--intro_h:60vh;
-				--h: 200vh;
-/*				--graph1_h: calc(var(--intro_height) + var(--h));*/
-			}
-			#intro{
-				/*background-color: gray;*/
-				top:20px;
-				position: relative;
-				height:var(--intro_h);
-			}
-			#first{
-				/*background-color: coral;*/
-				top:20px;
-				position: relative;
-				width: 55%;
-/*				height: 100%;*/
-			}
-			.white{
-				height:100vh;
-			}
-			#growth{
-				width:45%;
-				right:0;
-				top: var(--intro_h);
-				height: var(--h);
-/*				background-color: lightsteelblue;*/
-				position:absolute;
-				overflow: hidden;
-			}
-			#graph1{
-				width:45%;
-				right:0;
-				top: calc(var(--h) + var(--intro_h));
-				height: var(--h);
-/*				background-color: coral;*/
-				position:absolute;
-				overflow: hidden;
-			}
-			#graph2{
-				width:45%;
-				right:0;
-				top: calc(2*var(--h) + var(--intro_h));
-				height: var(--h);
-/*				background-color: skyblue;*/
-				position:absolute;
-/*				z-index: 20;*/
-				overflow: hidden;
-			}
-			#graph3{
-				width:45%;
-				right:0;
-				top: calc(3*var(--h) + var(--intro_h));
-				height: var(--h);
-/*				background-color: coral;*/
-				position:absolute;
-/*				z-index: 20;*/
-				overflow: hidden;
-			}
-			.dataPanel{
-				top:70vh;
-				position: relative;
-			}
-
-		</style>
-
-		
+		<script src = "https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css" media="screen"/>
 	</head>
 	<body>
-
-	<div class=container id="intro">
-		<p>This primer is intended as a guide for those without any or much technical knowledge. It will provide you with the necessary foundation to understand all the moving parts that collectively come together to enable blockchain as a technological tool for a myriad of applications in finance and beyond. You can use this self-learning primer at your own pace and is meant to foster further study and research by the reader after its completion (once blockchain is demystified!). No coding, math or technical background is needed. Hope you will find it of value. </p>
-		<br><br>
-		<p>DISCLAIMER: in order to provide the most-accessible content, certain simplifications were required in explaining some of the technical topics. So while we will not give you any wrong information, we decided to take some artistic liberties that will make the content easier to understand without compromising its accuracy and integrity. </p>
-	</div>
-	<p class="menu">Learning Mode : <select id="mode-selector" onChange="window.document.location.href=this.options[this.selectedIndex].value;">
-		<option value="index.html">22 min</a>
-		<option value="alt_index.html">45 min</a>
-		</select></p>
+		<div class="progress-bar"></div>
+		<div class=container id="intro">
+			<div class = 'row justify-content-between'>
+				<div class='col-xs-7'>
+					<h3>Blockchain Demystified: <br>A Visual Primer</h3><br>
+				</div>
+				<div class = 'col-xs-5'>
+					<p class="menu">Learning Mode : 
+						<select id="mode-selector" onChange="window.document.location.href=this.options[this.selectedIndex].value;">
+							<option value="index.html">22 min</a>
+							<option value="alt_index.html">45 min</a>
+						</select>
+					</p>
+				</div>
+			</div>
+			
+			<p>This primer is intended as a guide for those <u>without any or much technical knowledge</u>. It will provide you with the <u>necessary foundation</u> to understand all the moving parts that collectively come together to enable <u>blockchain as a technological tool for a myriad of applications in finance and beyond</u>.<p>
+			<p>You can use this self-learning primer at your own pace and is meant to foster further study and research by the reader after its completion (once blockchain is demystified!). No coding, math or technical background is needed. Hope you will find it of value. </p>
+			<br>
+			<p><b>DISCLAIMER</b>: in order to provide the most-accessible content, certain simplifications were required in explaining some of the technical topics. So while we will not give you any wrong information, we decided to take some artistic liberties that will make the content easier to understand without compromising its accuracy and integrity. </p>
+			
+		</div>
+		
 		<div class=container id="main">
 			<div class = row>
 				<div class='col-xs-5' id="first">
-					<h3>Three Types of Networks</h3>
-					<br>
+					<h3><u>Three Types of Networks</u></h3>
+					<br><br>
 					<div class=white>
-						<p>A main component of a blockchain is a series of interconnected digital devices (nodes) in a communication network where they can communicate and interact/transact. Such networks could be constructed in a myriad of ways, depending on objectives, constraints, and security/control, to name a few. In general, networks could be categorized as either Centralized or Decentralized (or Distributed, as its “close-relative”). Each category will have its pros and cons, and no one category is inherently better than the other; which one will work best for you will depend on a multitude of factors, as mentioned above. Blockchain inherently leverages Decentralized networks. Nonetheless, let’s take a quick look at each category. </p>
+						<p>A main component of a blockchain is <u>a series of interconnected digital devices (nodes)</u> in a communication network where they can communicate and interact/transact. Such networks could be constructed in a myriad of ways, depending on objectives, constraints, and security/control, to name a few.</p><div class="blanks"></div>
+						<p>In general, networks could be categorized as either <u>Centralized or Decentralized (or Distributed, as its “close-relative”)</u>. Each category will have its pros and cons, and no one category is inherently better than the other; which one will work best for you will depend on a multitude of factors, as mentioned above. </p>
+						<div class="blanks"></div>
+						<p><b>Blockchain inherently leverages Decentralized networks</b>. Nonetheless, let’s take a quick look at each category. </p>
 					</div>
 					<div class=white></div>
 					<div class=white>
-						<p>The most common and intuitive types of networks are centralized, that is, they rely on a central node to which every other node in the network connects - think of a telephone operator as being the central node that can connect all other nodes to each other (upon request!). Centralized networks are relatively easier to build, and could be cost effective in reducing the total “lines of wire” (1)  required to connect all nodes together. But it will have a pivotal central node that could theoretically impede connections between other nodes or, should it come under attack or fail, could take down the entire network as it has little redundancy or system resiliency. In fact, as all routes pass through the central node, there is only one route between any two other nodes. </p>
+						<p>The most common and intuitive types of networks are centralized, that is, they rely on a central node to which every other node in the network connects - think of a telephone operator as being the central node that can connect all other nodes to each other (upon request!). Centralized networks are relatively easier to build, and could be cost effective in reducing the total “lines of wire” <span title="For now, let’s assume we will have only wired connections between all nodes, no wireless"><sup>[1]</sup></span> required to connect all nodes together. But it will have a pivotal central node that could theoretically impede connections between other nodes or, should it come under attack or fail, could take down the entire network as it has little redundancy or system resiliency. In fact, as all routes pass through the central node, there is only one route between any two other nodes. </p>
 						<div class=dataPanel>
 							<p>total length of wires:<br><span class = scrollTop></span><p>
 							<p><span id = path1></span> path(s) between the two highlighted points<p>
 						</div>
+						<!-- <span title="I am hovering over the text">This is the text I want to have a mousover</span> -->
 					</div>
 					<div class=white></div>
 					<div class=white>
@@ -137,12 +85,14 @@
 			
 		</div>
 		<div class=container id="growth"></div>
-		<div class=container id="graph1"><p>graph1</p></div>
+		<div class=container id="graph1">
+			<!-- <p>graph1</p> -->
+		</div>
 		<div class=container id="graph2">
-			<p>graph2</p>
+			<!-- <p>graph2</p> -->
 		</div>
 		<div class=container id="graph3">
-			<p>graph3</p>
+			<!-- <p>graph3</p> -->
 		</div>
 		<script src="graph3.js"></script>
 
