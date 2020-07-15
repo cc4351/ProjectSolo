@@ -11,6 +11,7 @@ p.menu{
 	top:20vh;
 	position: relative;
 	height:var(--intro_h);
+
 }
 #first{
 	/*background-color: coral;*/
@@ -22,6 +23,7 @@ p.menu{
 .white{
 	height:120vh;
 }
+
 #growth{
 	width:45%;
 	right:0;
@@ -30,6 +32,7 @@ p.menu{
 /*				background-color: lightsteelblue;*/
 	position:absolute;
 	overflow: hidden;
+	z-index: 40;
 }
 #graph1{
 	width:45%;
@@ -99,4 +102,14 @@ p.menu{
   border: 1px solid #aaa;
   border-radius: 0.5em;
   padding: 0.9em 1em 1.1em;
+}
+
+
+#exp{
+	position: fixed;
+	right:10px;
+	width:45%;
+	z-index: 20;
+	text-align: right;
+	overflow: hidden;
 }

@@ -371,7 +371,7 @@ var render = function() {
 	function introScale(svgC, top, max=0){
 		svgC = "#" + svgC;
 		var bottom = $(svgC).height() + top;
-		var dif = scrollTop - top;
+		var dif = scrollTop - top+40;
 		d3.select(svgC).attr('transform','translate(' + d3.select(svgC).attr("width")/8 + ',' + dif+ ')');
 
 		nodes0.each(function(){
@@ -389,7 +389,7 @@ var render = function() {
 	function rescale(lines=[], connect=[], svgC, sumLen = 0, top){
 		svgC = "#" + svgC;
 		var bottom = $(svgC).height() + top;
-		var dif = scrollTop - top;
+		var dif = scrollTop - top+40;
 		//translate the graph down as the user scroll
 		d3.select(svgC).attr('transform','translate(' + d3.select(svgC).attr("width")/8 + ',' + dif+ ')');
 		var scales = lineScale(scrollTop-top);//scaling factor
@@ -599,3 +599,7 @@ document.addEventListener('scroll', function() {
 	scroll = (element[scrollT]||body[scrollT]) / ((element[scrollH]||body[scrollH]) - element.clientHeight) * 100;
 	progress.style.setProperty('--scroll', scroll + '%');
 	});
+
+
+//pop-up boxes
+//ref: https://stackoverflow.com/a/40582111/12144813
