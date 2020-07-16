@@ -141,6 +141,8 @@ function adjustCoord(nodeData, mulFactor){
 	return nodeData;
 }
 
+var crimson = "rgb(200, 0, 0)";
+
 //create lines and adjust node locations
 function cLine(connect, nData, idx, mulFactor=1){
 	var lineData = [];
@@ -166,13 +168,13 @@ function cLine(connect, nData, idx, mulFactor=1){
 			pt1.link.push(idx+"_"+"l"+i);
 		}else{
 			pt1.link = [idx+"_"+"l"+i];
-			pt1.color = "red";
+			pt1.color = crimson;
 		}
 		if(pt2.hasOwnProperty("link")){
 			pt2.link.push(idx+"_"+"l"+i);
 		}else{
 			pt2.link = [idx+"_"+"l"+i];
-			pt2.color = "red";
+			pt2.color = crimson;
 		}
 	}
 	return [lineData, nodeData, sumLen];
@@ -376,7 +378,7 @@ var render = function() {
 
 		nodes0.each(function(){
 			if(scrollTop >= d3.select(this).attr("tol")){
-				d3.select(this).attr("opacity", 0.8).attr("fill", "red");
+				d3.select(this).attr("opacity", 0.8).attr("fill", crimson);
 			}
 			if(scrollTop < d3.select(this).attr("tol")){
 				d3.select(this).attr("opacity", 0.1).attr("fill", "black");
@@ -411,7 +413,7 @@ var render = function() {
 		}else{
 			bluePts.forEach(ele => {
 				var oriColor = d3.select("#"+header+ele).attr("fill");
-				if(oriColor != nodeGray){d3.select("#"+header+ele).attr("fill", "red");}
+				if(oriColor != nodeGray){d3.select("#"+header+ele).attr("fill", crimson);}
 				d3.select("#"+header+ele).attr("bFlag", 0);
 			});
 		}
@@ -511,7 +513,7 @@ function click(nodes, nData){
 			if(bluePts.includes(ind) && d3.select(this).attr("bFlag") == 1){
 				var newColor = d3.select(this).attr("fill") == nodeGreen? nodeGray:nodeGreen;
 			}else{
-				var newColor = d3.select(this).attr("fill") == "red"? nodeGray:"red";
+				var newColor = d3.select(this).attr("fill") == crimson? nodeGray:crimson;
 			}
 			//update the prevGray set according to the new color
 			if(newColor == nodeGray){
