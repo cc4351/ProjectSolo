@@ -1,0 +1,112 @@
+p.menu{
+	text-align:center;
+}
+
+mark {
+	background-color:#b4d0f1;
+}
+:root{
+	--intro_h:100vh;
+	--h: 240vh;
+/*				--graph1_h: calc(var(--intro_height) + var(--h));*/
+}
+#intro{
+	/*background-color: gray;*/
+	top:20vh;
+	position: relative;
+	height:var(--intro_h);
+}
+#first{
+	/*background-color: coral;*/
+	top:20px;
+	position: relative;
+	width: 45%;
+	text-align:justify;
+
+
+/*				height: 100%;*/
+}
+.white{
+	height:120vh;
+}
+#growth{
+	width:43%;
+	right:0;
+	top: var(--intro_h);
+	height: var(--h);
+/*				background-color: lightsteelblue;*/
+	position:absolute;
+	overflow: hidden;
+	margin-left:auto;
+	margin-right:auto;
+}
+#graph1{
+	width:43%;
+	right:0;
+	top: calc(var(--h) + var(--intro_h));
+	height: var(--h);
+/*				background-color: coral;*/
+	position:absolute;
+	overflow: hidden;
+	
+}
+#graph2{
+	width:43%;
+	right:0;
+	top: calc(2*var(--h) + var(--intro_h));
+	height: var(--h);
+/*				background-color: skyblue;*/
+	position:absolute;
+/*				z-index: 20;*/
+	overflow: hidden;
+}
+#graph3{
+	width:43%;
+	right:0;
+	top: calc(3*var(--h) + var(--intro_h));
+	height: var(--h);
+/*				background-color: coral;*/
+	position:absolute;
+/*				z-index: 20;*/
+	overflow: hidden;
+}
+.dataPanel{
+	top:70vh;
+	position: relative;
+}
+
+.blanks{
+	height: 30vh;
+}
+.progress-bar {
+    background: linear-gradient(to right, red var(--scroll), transparent 0);
+    background-repeat: no-repeat;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    z-index: 1;
+}
+
+.footnote-anchor {
+  border: 1px solid #aaa;
+  border-radius: 0.2em;
+  font-weight: 600;
+  padding: 0.1em 0.3em;
+  margin: 0.2em;
+  font-size: 0.75em;
+  cursor: pointer;
+}
+
+#footnote-container {
+  position: absolute;
+  z-index: 200;
+  top: 300px;
+  left: 300px;
+  width: 20em;
+  background: #ffffff;
+  border: 1px solid #aaa;
+  border-radius: 0.5em;
+  padding: 0.9em 1em 1.1em;
+}
