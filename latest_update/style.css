@@ -1,13 +1,19 @@
+/* blue = #075aaa */
+/* red = #eb2226 */
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
 p.menu{
 	text-align:center;
 }
 
-mark {
-	background-color:#b4d0f1;
+b.key {
+	color:#075aaa;
 }
 :root{
-	--intro_h:100vh;
-	--h: 240vh;
+	--intro_h:150vh;
+	--h: 370vh;
+	--h3: 420vh;
 /*				--graph1_h: calc(var(--intro_height) + var(--h));*/
 }
 #intro{
@@ -22,12 +28,15 @@ mark {
 	position: relative;
 	width: 45%;
 	text-align:justify;
+	height: var(--h);
 
 
 /*				height: 100%;*/
 }
+
+
 .white{
-	height:120vh;
+	height:150vh;
 }
 #growth{
 	width:43%;
@@ -43,7 +52,7 @@ mark {
 #graph1{
 	width:43%;
 	right:0;
-	top: calc(var(--h) + var(--intro_h));
+	top: calc(var(--h) + var(--intro_h) - 9vh);
 	height: var(--h);
 /*				background-color: coral;*/
 	position:absolute;
@@ -53,7 +62,7 @@ mark {
 #graph2{
 	width:43%;
 	right:0;
-	top: calc(2*var(--h) + var(--intro_h));
+	top: calc(2*var(--h) + var(--intro_h) - 18vh);
 	height: var(--h);
 /*				background-color: skyblue;*/
 	position:absolute;
@@ -63,23 +72,29 @@ mark {
 #graph3{
 	width:43%;
 	right:0;
-	top: calc(3*var(--h) + var(--intro_h));
-	height: var(--h);
+	top: calc(3*var(--h) + var(--intro_h) - 27vh);
+	height: var(--h3);
 /*				background-color: coral;*/
 	position:absolute;
 /*				z-index: 20;*/
 	overflow: hidden;
 }
 .dataPanel{
-	top:70vh;
+	top:75vh;
 	position: relative;
 }
 
+.end {
+	top: 20vh;
+	position:relative;
+	height:30vh;
+}
+
 .blanks{
-	height: 30vh;
+	height: 90vh;
 }
 .progress-bar {
-    background: linear-gradient(to right, red var(--scroll), transparent 0);
+    background: linear-gradient(to right, #eb2226 var(--scroll), transparent 0);
     background-repeat: no-repeat;
     width: 100%;
     position: fixed;
@@ -110,3 +125,22 @@ mark {
   border-radius: 0.5em;
   padding: 0.9em 1em 1.1em;
 }
+
+.table {
+	width:100%;
+	display:block;
+	top: calc(4*var(--h) + var(--intro_h) - 36vh);
+	position:relative;
+}
+
+.summary-panel {
+	width:33.3%;
+	float:left;
+	clear:right;
+	
+}
+.container {
+	padding:2em 3em;
+	text-align:left;
+}
+
