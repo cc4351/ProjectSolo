@@ -20,7 +20,7 @@
 		<div class=container id="intro">
 			<div class = 'row justify-content-between'>
 				<div class='col-xs-7'>
-					<h1>Blockchain Demystified: <br>A Visual Primer</h1><br>
+					<h1><b>Blockchain Demystified: </b><br>A Visual Primer</h1><br>
 				</div>
 				<div class = 'col-xs-5'>
 					<p class="menu">Learning Mode : 
@@ -32,7 +32,7 @@
 				</div>
 			</div>
 			
-			<p>This primer is intended as a guide for those <u>without any or much technical knowledge</u>. It will provide you with the <u>necessary foundation</u> to understand all the moving parts that collectively come together to enable <u>blockchain as a technological tool for a myriad of applications in finance and beyond</u>.<p>
+			<p>This primer is intended as a guide for those <b>without any or much technical knowledge</b>. It will provide you with the <b>necessary foundation</b> to understand all the moving parts that collectively come together to enable <b>blockchain as a technological tool for a myriad of applications in finance and beyond</b>.<p>
 			<p>You can use this self-learning primer at your own pace and is meant to foster further study and research by the reader after its completion (once blockchain is demystified!). No coding, math or technical background is needed. Hope you will find it of value. </p>
 			<br>
 			<p><b>DISCLAIMER</b>: in order to provide the most-accessible content, certain simplifications were required in explaining some of the technical topics. So while we will not give you any wrong information, we decided to take some artistic liberties that will make the content easier to understand without compromising its accuracy and integrity. </p>
@@ -42,37 +42,38 @@
 		<div class=container id="main">
 			<div class = row>
 				<div class='col-xs-5' id="first">
-					<h3><u>Three Types of Networks</u></h3>
+					<h3><b>Three Types of Networks</b></h3>
 					<br><br>
 					<div class=white>
-						<p>A main component of a blockchain is <u><mark>a series of interconnected digital devices (nodes)</mark></u> in a communication network where they can communicate and interact/transact. Such networks could be constructed in a myriad of ways, depending on objectives, constraints, and security/control, to name a few.</p><div class="blanks"></div>
-						<p>In general, networks could be categorized as either <u><mark>Centralized or Decentralized (or Distributed, as its “close-relative”)</mark></u>. Each category will have its pros and cons, and no one category is inherently better than the other; which one will work best for you will depend on a multitude of factors, as mentioned above. </p>
+						<p>A main component of a blockchain is <b>a series of interconnected digital devices (nodes)</b> in a communication network where they can communicate and interact/transact. Such networks could be constructed in a myriad of ways, depending on objectives, constraints, and security/control, to name a few.</p>
+						<div class="blanks"></div>
+						<p>In general, networks could be categorized as either <b>Centralized or Decentralized (or Distributed, as its “close-relative”)</b>. Each category will have its pros and cons, and no one category is inherently better than the other; which one will work best for you will depend on a multitude of factors, as mentioned above. </p>
 						<div class="blanks"></div>
 						<p><b>Blockchain inherently leverages Decentralized networks</b>. Nonetheless, let’s take a quick look at each category. </p>
 					</div>
 					<div class=white></div>
 					<div class=white>
-						<p>The most common and intuitive types of networks are <b>centralized</b>, that is, they <u><mark>rely on a central node</mark></u> to which every other node in the network connects - think of a telephone operator as being the central node that can connect all other nodes to each other (upon request!).</p>
+						<div class="blanks"></div>
+						<p>The most common and intuitive types of networks are <b class="key">centralized</b>, that is, they <b>rely on a central node</b> to which every other node in the network connects - think of a telephone operator as being the central node that can connect all other nodes to each other (upon request!).</p>
 						<div class="blanks"></div>
 						<p>Centralized networks are relatively easier to build, and could be cost effective in reducing the total “lines of wire” <span title="For now, let’s assume we will have only wired connections between all nodes, no wireless"><sup>[1]</sup></span> required to connect all nodes together.</p>
 						<div class="blanks"></div>
-						<p>But it will have a pivotal central node that could theoretically impede connections between other nodes or, should it come under attack or fail, could take down the entire network as it has <u><mark>little redundancy or system resiliency</mark></u>. In fact, as all routes pass through the central node, there is u><mark>only one route between any two other nodes</mark></u>. </p>
-						
+						<p>But it will have a pivotal central node that could theoretically impede connections between other nodes or, should it come under attack or fail, could take down the entire network as it has <b>little redundancy or system resiliency</b>. In fact, as all routes pass through the central node, there is only<b> one route between any two other nodes</b>. </p>
 						<div class=dataPanel>
 							<p>total length of wires:<br><span class = scrollTop></span><p>
 							<p><span id = path1></span> path(s) between the two highlighted points<p>
 						</div>
-						<!-- <span title="I am hovering over the text">This is the text I want to have a mousover</span> -->
 					</div>
 					
 					<div class=white></div>
 					<div class=white>
+						<div class='blanks'></div>
+						<div class='blanks'></div>
+						<p>In order to have a network with “flat hierarchy” where all nodes can be truly equal (especially in regard to voting rights) with lots of redundancy, we would need to implement <b class="key">decentralized</b> networks.</p>
 						<div class="blanks"></div>
-						<p>In order to have a network with “flat hierarchy” where all nodes can be truly equal (especially in regard to voting rights) with lots of redundancy, we would need to implement <b>decentralized</b> networks.</p>
+						<p>While more complex given all the moving parts and the need for all nodes to operate under common standards (“Protocols” - more on this later), decentralized networks offer a myriad of advantages, including <b>resiliency and robustness</b> - for instance, you have multiple routes two nodes could take to connect and lack of central authority to impede interactions/transactions.</p>
 						<div class="blanks"></div>
-						<p>While more complex given all the moving parts and the need for all nodes to operate under common standards (“Protocols” - more on this later), decentralized networks offer a myriad of advantages, including <u><mark>resiliency and robustness</mark></u> - for instance, you have multiple routes two nodes could take to connect and lack of central authority to impede interactions/transactions.</p>
-						<div class="blanks"></div>
-						<p>You will also have <u><mark>multiple routes between any two nodes</mark></u>, although you will have more “lines of wire” connecting all nodes to the network. </p>
+						<p>You will also have <b>multiple routes between any two nodes</b>, although you will have more “lines of wire” connecting all nodes to the network. </p>
 						<div class=dataPanel>
 							<p>total length of wires:<br><span class = scrollTop></span><p>
 							<p><span id = path2></span> path(s) between the two highlighted points<p>
@@ -81,9 +82,11 @@
 					<div class=white></div>
 					<div class=white>
 						<div class="blanks"></div>
-						<p>Although the definition of <b>distributed</b> networks in part depends on the setting and use-case (co-location, processing), they are closely related to decentralized networks (some argue they are a subcategory of decentralized).</p>
 						<div class="blanks"></div>
-						<p> In essence, distributed could be <u><mark>a hybrid between centralized and decentralized</mark></u>; for instance, you could “distribute” a large task to be processed across multiple co-located nodes, but you’ll still be in control of all nodes. Or you could have a decentralized network such that each node is connected to its nearest neighbors by design, creating a lot of redundancy as a fail-safe measure.</p>
+						<div class="blanks"></div>
+						<p>Although the definition of <b class='key'>distributed</b> networks in part depends on the setting and use-case (co-location, processing), they are closely related to decentralized networks (some argue they are a subcategory of decentralized).</p>
+						<div class="blanks"></div>
+						<p> In essence, distributed could be a <b>hybrid between centralized and decentralized</b>; for instance, you could “distribute” a large task to be processed across multiple co-located nodes, but you’ll still be in control of all nodes. Or you could have a decentralized network such that each node is connected to its nearest neighbors by design, creating a lot of redundancy as a fail-safe measure.</p>
 						<div class="blanks"></div>
 						<p> In each of these settings, a distributed network could be a mix of features of centralized and decentralized, to best suit your needs. </p>
 						<div class=dataPanel>
@@ -92,12 +95,70 @@
 						</div>
 					</div>
 					<div class=white></div>
+					<div class=white></div>
 					<div class=white>
-						<div class="blanks"></div>
-						<p>It is best to think of network types and various categories as a spectrum, on one hand you have pure centralized networks, and on the other a true decentralized one. Since blockchains are quite customizable, you will decide where on that spectrum your network should be to to best fit your objectives and constraints. </p>
+						<div class=blanks></div>
+						<div class="white"></div>
+						<div class="white"></div>
+						<div class=white></div>
+						<div class='end'>
+							<p>It is best to think of network types and various categories as a spectrum, on one hand you have pure centralized networks, and on the other a true decentralized one. Since blockchains are quite customizable, you will decide where on that spectrum your network should be to to best fit your objectives and constraints. </p>
+						</div>
 					</div>
+					<div class="blanks"></div>
 					
 				</div>
+				<div class="table">
+					<div class="summary-panel">
+						<div class="container" style="text-align:center">
+							<h4>Centralized</h4>
+						</div>
+						<img src="centralized.png" alt="centralized" style="width:70%; display:block; margin-left:auto; margin-right:auto">
+						<div class="container">
+							<ul>
+								<li>
+									relies on a central node
+								</li>
+								<li>
+									little redundancy or system resiliency
+								</li>
+								<li>
+									one route between any 2 nodes
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="summary-panel">
+						<div class="container" style="text-align:center">
+							<h4>Decentralized</h4>
+						</div>
+						<img src="decentralized.png" alt="decentralized" style="width:70%; display:block; margin-left:auto; margin-right:auto">
+						<div class="container">
+							<ul>
+								<li>
+									resilient and robust
+								</li>
+								<li>
+									multiple routes between any 2 nodes
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="summary-panel">
+						<div class="container" style="text-align:center">
+							<h4>Distributed</h4>
+						</div>
+						<img src="distributed.png" alt="distributed" style="width:70%; display:block; margin-left:auto; margin-right:auto">
+						<div class="container">
+							<ul>
+								<li>
+									hybrid between centralized and decentralized
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div style="clear:both"></div>	
 			</div>
 			
 		</div>
