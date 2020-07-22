@@ -141,7 +141,7 @@ function adjustCoord(nodeData, mulFactor){
 	return nodeData;
 }
 
-var crimson = "rgb(200, 0, 0)";
+var crimson = "rgb(204, 51, 51)";
 
 //create lines and adjust node locations
 function cLine(connect, nData, idx, mulFactor=1){
@@ -225,7 +225,7 @@ var lineAttrs = {
 	to: function(d){ return d.to;},
 	stroke: "black",
 	"stroke-width": 2,
-	opacity: 0.5,
+	// opacity: 0.5,
 	id: function(d){return d.id;},
 	standardLen: function(d){return d.len;}
 };
@@ -297,10 +297,10 @@ var scrollTop = 0;
 var newScrollTop = 0;
 var currentScrollTop = d3.select('#currentScrollTop');
 var nodeGray = "rgb(100, 100, 100)";
-var nodeGreen = "green";
+var nodeGreen = "rgb(1, 41, 92)";
 
 window.addEventListener('scroll', function(e){
-	newScrollTop = window.scrollY;//get the latest scrollTop
+	newScrollTop = window.scrollY;//get the latest 
 });
 
 var segment = $(growth).height()/(nodes0[0].length+7);
@@ -378,7 +378,7 @@ var render = function() {
 
 		nodes0.each(function(){
 			if(scrollTop >= d3.select(this).attr("tol")){
-				d3.select(this).attr("opacity", 0.8).attr("fill", crimson);
+				d3.select(this).attr("opacity", 1).attr("fill", crimson);
 			}
 			if(scrollTop < d3.select(this).attr("tol")){
 				d3.select(this).attr("opacity", 0.1).attr("fill", "black");
@@ -454,7 +454,7 @@ var render = function() {
 		if(typeof validSum != "undefined"){
 			var elements = document.getElementsByClassName("scrollTop");
 			for(i = 0;i<elements.length; i++){
-				elements[i].innerHTML=validSum;
+				elements[i].innerHTML=validSum.toFixed(2);
 			}
 		}
 		
@@ -604,4 +604,8 @@ document.addEventListener('scroll', function() {
 
 
 //pop-up boxes
-//ref: https://stackoverflow.com/a/40582111/12144813
+var ft_container = d3.select("footnote-container");
+d3.select(".footnote-anchor").on("click", function(){
+	ft_container.style("opacity", 0);
+	// console.log("clicked!");
+});

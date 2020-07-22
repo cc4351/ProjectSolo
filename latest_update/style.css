@@ -1,3 +1,15 @@
+html *{
+   color: #000;
+   font-family: Georgia;
+   /*font-family: Helvetica;*/
+   /*font-family: Times New Roman;*/
+}
+
+html{
+	overflow-x: hidden; 
+    overflow-y: scroll; 
+}
+
 p.menu{
 	text-align:center;
 }
@@ -64,15 +76,37 @@ p.menu{
 	overflow: hidden;
 }
 .dataPanel{
-	top:70vh;
-	position: relative;
+	/*top:70vh;*/
+	position: sticky;
+	position: -webkit-sticky; 
+	/*top: 60vh;*/
+	top:10vh;
+	right: 0;
+}
+
+.wrapper{
+	position: absolute;
+	right: 0;
+	height: var(--h);
+}
+
+#w1{
+	top: var(--h);;
+}
+
+#w2{
+	top: calc(2*var(--h));
+}
+
+#w3{
+	top: calc(3*var(--h));
 }
 
 .blanks{
 	height: 50vh;
 }
 .progress-bar {
-    background: linear-gradient(to right, rgb(200,0,0) var(--scroll), transparent 0);
+    background: linear-gradient(to right, rgb(204, 51, 51) var(--scroll), transparent 0);
     background-repeat: no-repeat;
     width: 100%;
     position: fixed;
@@ -101,15 +135,16 @@ p.menu{
   background: #ffffff;
   border: 1px solid #aaa;
   border-radius: 0.5em;
+  font-size: 12px;
   padding: 0.9em 1em 1.1em;
 }
 
 
-#exp{
+/*#exp{
 	position: fixed;
 	right:10px;
 	width:45%;
 	z-index: 20;
 	text-align: right;
 	overflow: hidden;
-}
+}*/
