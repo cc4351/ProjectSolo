@@ -28,7 +28,7 @@ b.key {
 	position: relative;
 	width: 45%;
 	text-align:justify;
-	height: var(--h);
+	height: 45vh;
 
 
 /*				height: 100%;*/
@@ -85,9 +85,9 @@ b.key {
 }
 
 .end {
-	top: 20vh;
+	top: 15vh;
 	position:relative;
-	height:30vh;
+	height:1vh;
 }
 
 .blanks{
