@@ -452,7 +452,7 @@ var render = function() {
 		if(typeof validSum != "undefined"){
 			var elements = document.getElementsByClassName("scrollTop");
 			for(i = 0;i<elements.length; i++){
-				elements[i].innerHTML=validSum;
+				elements[i].innerHTML=Math.round(validSum);
 			}
 		}
 		
