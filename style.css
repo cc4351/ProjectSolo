@@ -1,0 +1,145 @@
+html *{
+   color: #000;
+   font-family: Georgia;
+   /*font-family: Helvetica;*/
+}
+
+html{
+	overflow-x: hidden; 
+    overflow-y: scroll; 
+}
+
+p.menu{
+	text-align:center;
+}
+:root{
+	--intro_h:100vh;
+	--h: 240vh;
+}
+#intro{
+	top:20vh;
+	position: relative;
+	height:var(--intro_h);
+
+}
+#first{
+	top:20px;
+	position: relative;
+	width: 55%;
+}
+.white{
+	height:120vh;
+}
+
+#growth{
+	width:45%;
+	right:0;
+	top: var(--intro_h);
+	height: var(--h);
+	position:absolute;
+	overflow: hidden;
+	z-index: 40;
+}
+#graph1{
+	width:45%;
+	right:0;
+	top: calc(var(--h) + var(--intro_h));
+	height: var(--h);
+	position:absolute;
+	overflow: hidden;
+}
+#graph2{
+	width:45%;
+	right:0;
+	top: calc(2*var(--h) + var(--intro_h));
+	height: var(--h);
+	position:absolute;
+	overflow: hidden;
+}
+#graph3{
+	width:45%;
+	right:0;
+	top: calc(3*var(--h) + var(--intro_h));
+	height: var(--h);
+	position:absolute;
+	overflow: hidden;
+}
+.dataPanel{
+	position: sticky;
+	position: -webkit-sticky; 
+	top:10vh;
+	right: 0;
+}
+
+.wrapper{
+	position: absolute;
+	right: 0;
+	height: calc(var(--h) - 70vh);
+}
+
+#w1{
+	top: var(--h);
+}
+
+#w2{
+	top: calc(2*var(--h));
+}
+
+#w3{
+	top: calc(3*var(--h));
+}
+
+.blanks{
+	height: 50vh;
+}
+.progress-bar {
+    background: linear-gradient(to right, rgb(204, 51, 51) var(--scroll), transparent 0);
+    background-repeat: no-repeat;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    z-index: 1;
+}
+
+.footnote-anchor {
+  border: 1px solid #aaa;
+  border-radius: 0.2em;
+  font-weight: 600;
+  padding: 0.1em 0.3em;
+  margin: 0.2em;
+  font-size: 0.75em;
+  cursor: pointer;
+}
+
+#footnote-container {
+  position: absolute;
+  z-index: 200;
+  top: 300px;
+  left: 300px;
+  width: 20em;
+  background: #ffffff;
+  border: 1px solid #aaa;
+  border-radius: 0.5em;
+  font-size: 12px;
+  padding: 0.9em 1em 1.1em;
+}
+
+.table {
+	width:100%;
+	display:block;
+	top: calc(4*var(--h) + var(--intro_h) - 200vh);
+	position:relative;
+}
+
+.summary-panel {
+	width:33.3%;
+	float:left;
+	clear:right;
+	
+}
+.contain_box {
+	padding:2em 3em;
+	text-align:left;
+}

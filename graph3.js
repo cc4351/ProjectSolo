@@ -12,7 +12,6 @@ var svg0 = d3.select("#growth").append("svg")
 var svg1 = d3.select("#graph1").append("svg")
 				 .attr("width", $(graph1).width())
 				 .attr("height", $(graph1).height())
-				 .attr("x", 0)
 				 .attr("y", 0)
 				 .attr("viewBox", "0 0 "+ $(graph1).width() + " "+$(graph1).height())
 				 .attr("preserveAspectRatio", "xMinYMin meet")
@@ -141,6 +140,8 @@ function adjustCoord(nodeData, mulFactor){
 	return nodeData;
 }
 
+var crimson = "rgb(204, 51, 51)";
+
 //create lines and adjust node locations
 function cLine(connect, nData, idx, mulFactor=1){
 	var lineData = [];
@@ -166,13 +167,13 @@ function cLine(connect, nData, idx, mulFactor=1){
 			pt1.link.push(idx+"_"+"l"+i);
 		}else{
 			pt1.link = [idx+"_"+"l"+i];
-			pt1.color = "red";
+			pt1.color = crimson;
 		}
 		if(pt2.hasOwnProperty("link")){
 			pt2.link.push(idx+"_"+"l"+i);
 		}else{
 			pt2.link = [idx+"_"+"l"+i];
-			pt2.color = "red";
+			pt2.color = crimson;
 		}
 	}
 	return [lineData, nodeData, sumLen];
@@ -223,7 +224,7 @@ var lineAttrs = {
 	to: function(d){ return d.to;},
 	stroke: "black",
 	"stroke-width": 2,
-	opacity: 0.5,
+	// opacity: 0.5,
 	id: function(d){return d.id;},
 	standardLen: function(d){return d.len;}
 };
@@ -295,10 +296,10 @@ var scrollTop = 0;
 var newScrollTop = 0;
 var currentScrollTop = d3.select('#currentScrollTop');
 var nodeGray = "rgb(100, 100, 100)";
-var nodeGreen = "green";
+var nodeGreen = "rgb(1, 41, 92)";
 
 window.addEventListener('scroll', function(e){
-	newScrollTop = window.scrollY;//get the latest scrollTop
+	newScrollTop = window.scrollY;//get the latest 
 });
 
 var segment = $(growth).height()/(nodes0[0].length+7);
@@ -363,20 +364,30 @@ document.getElementById("path1").innerHTML = pathSearch(c1, numV, bluePts);
 document.getElementById("path2").innerHTML = pathSearch(c2, numV, bluePts);
 document.getElementById("path3").innerHTML = pathSearch(c3, numV, bluePts);
 
+var w1 = d3.select("#w1");
+var w2 = d3.select("#w2");
+var w3 = d3.select("#w3");
+
+d3.select("#w2").attr("opacity", 0);
 
 var render = function() {
   if (scrollTop != newScrollTop) {
 	scrollTop = newScrollTop//update scrollTop, needs to be done after container reacts to scroller.scroll
+	d3.select("#w2").attr("msg", "test");
+	// if(scrollTop < frameHeight+base1-400){
+	// w2.attr("opacity", 0);
+		// w3.attr("opacity", 0);
+	// }
 
 	function introScale(svgC, top, max=0){
 		svgC = "#" + svgC;
 		var bottom = $(svgC).height() + top;
-		var dif = scrollTop - top + 40;
+		var dif = scrollTop - top+40;
 		d3.select(svgC).attr('transform','translate(' + d3.select(svgC).attr("width")/8 + ',' + dif+ ')');
 
 		nodes0.each(function(){
 			if(scrollTop >= d3.select(this).attr("tol")){
-				d3.select(this).attr("opacity", 0.8).attr("fill", "red");
+				d3.select(this).attr("opacity", 1).attr("fill", crimson);
 			}
 			if(scrollTop < d3.select(this).attr("tol")){
 				d3.select(this).attr("opacity", 0.1).attr("fill", "black");
@@ -389,7 +400,7 @@ var render = function() {
 	function rescale(lines=[], connect=[], svgC, sumLen = 0, top){
 		svgC = "#" + svgC;
 		var bottom = $(svgC).height() + top;
-		var dif = scrollTop - top;
+		var dif = scrollTop - top+40;
 		//translate the graph down as the user scroll
 		d3.select(svgC).attr('transform','translate(' + d3.select(svgC).attr("width")/8 + ',' + dif+ ')');
 		var scales = lineScale(scrollTop-top);//scaling factor
@@ -411,7 +422,7 @@ var render = function() {
 		}else{
 			bluePts.forEach(ele => {
 				var oriColor = d3.select("#"+header+ele).attr("fill");
-				if(oriColor != nodeGray){d3.select("#"+header+ele).attr("fill", "red");}
+				if(oriColor != nodeGray){d3.select("#"+header+ele).attr("fill", crimson);}
 				d3.select("#"+header+ele).attr("bFlag", 0);
 			});
 		}
@@ -452,7 +463,7 @@ var render = function() {
 		if(typeof validSum != "undefined"){
 			var elements = document.getElementsByClassName("scrollTop");
 			for(i = 0;i<elements.length; i++){
-				elements[i].innerHTML=validSum;
+				elements[i].innerHTML=validSum.toFixed(0);
 			}
 		}
 		
@@ -464,6 +475,7 @@ var render = function() {
 	rescale(lines3, c3, "svg3", sumLen3, frameHeight*2+base1);
       
 	currentScrollTop.text(scrollTop)//update currentScrollTop?
+
   }
 
   window.requestAnimationFrame(render)
@@ -488,7 +500,6 @@ var setDimensions = function() {
 
 window.onresize = setDimensions
 
-
 //click event
 //requires refactoring
 //problem1: click() function is too long => possible to break into multiple reusable parts?
@@ -511,7 +522,7 @@ function click(nodes, nData){
 			if(bluePts.includes(ind) && d3.select(this).attr("bFlag") == 1){
 				var newColor = d3.select(this).attr("fill") == nodeGreen? nodeGray:nodeGreen;
 			}else{
-				var newColor = d3.select(this).attr("fill") == "red"? nodeGray:"red";
+				var newColor = d3.select(this).attr("fill") == crimson? nodeGray:crimson;
 			}
 			//update the prevGray set according to the new color
 			if(newColor == nodeGray){
@@ -544,7 +555,7 @@ function click(nodes, nData){
 						numericalSum -= tmpLen;
 					}
 					for(let i=0; i<scrollOne.length; i++){
-						scrollOne[i].innerHTML = numericalSum;
+						scrollOne[i].innerHTML = numericalSum.toFixed(0);
 					}
 					
 				}
@@ -585,3 +596,24 @@ function repeat(nodes){
 repeat(nodes1);
 repeat(nodes2);
 repeat(nodes3);
+
+
+// progress bar
+var element = document.documentElement,
+  body = document.body,
+  scrollT = 'scrollTop',
+  scrollH = 'scrollHeight',
+  progress = document.querySelector('.progress-bar'),
+  scroll;
+
+document.addEventListener('scroll', function() {
+	scroll = (element[scrollT]||body[scrollT]) / ((element[scrollH]||body[scrollH]) - element.clientHeight) * 100;
+	progress.style.setProperty('--scroll', scroll + '%');
+	});
+
+
+//pop-up boxes
+var ft_container = d3.select("footnote-container");
+d3.select(".footnote-anchor").on("click", function(){
+	ft_container.style("opacity", 0);
+});
