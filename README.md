@@ -21,5 +21,5 @@ Check out the latest_update folder
   - added network graphs sample onto the html webpage
   
 **password**
-blockchainvis
- 
+  - blockchainvis
+  - attribute: https://github.com/matteobrusa/Password-protection-for-static-pages/
