@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Blockchain</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+		<!--		experiment with CSS preprocessors-->
+<!--		<link href="styles.less" type="text/css" rel="stylesheet/less"/>-->
+<!--		<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js" type="text/javascript"></script>-->
+		<script src = "https://d3js.org/d3.v3.min.js"></script>
+		<script src = "https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css" media="screen"/>
+	</head>
+	<body>
+		<div class="progress-bar"></div>
+		<div class=container id="intro">
+			<div class = 'row justify-content-between'>
+				<div class='col-xs-7'>
+					<h3><span style="color:rgb(204, 51, 51);">Blockchain</span> Demystified: <br>A Visual Primer</h3><br>
+				</div>
+				<div class = 'col-xs-5'>
+					<p class="menu">Learning Mode : 
+						<select id="mode-selector" onChange="window.document.location.href=this.options[this.selectedIndex].value;">
+							<option value="index.html">22 min</a>
+							<option value="alt_index.html">45 min</a>
+						</select>
+					</p>
+				</div>
+			</div>
+			<p>This primer is intended as a guide for those <b>without</b> any or much technical knowledge. It will provide you with the <b>necessary foundation</b> to understand all the moving parts that collectively come together to enable <b><span style="color:rgb(204, 51, 51);">blockchain</span> as a technological tool</b> for a myriad of applications in finance and beyond.<p>
+			<p>You can use this self-learning primer at your own pace and is meant to foster further study and research by the reader after its completion (once blockchain is demystified!). No coding, math or technical background is needed. Hope you will find it of value. </p>
+			<br>
+			<p><b style="font-size: 18px;color:gray">DISCLAIMER</b>: in order to provide the most-accessible content, <b>certain simplifications</b> were required in explaining some of the technical topics. So while we will not give you any wrong information, we decided to take some artistic liberties that will make the content easier to understand without compromising its accuracy and integrity. </p>
+			
+		</div>
+		
+		<div class=container id="main">
+			<div class = "row justify-content-start">
+				<div class='col-6' id="first">
+					<h3><u>Three Types of Networks</u></h3>
+					<br><br><br>
+					<div class=white>
+						<p>A main component of a blockchain is a series of <b>interconnected digital devices (nodes)</b> in a communication network where they can communicate and interact/transact. </p>
+						<!-- <div class="blanks"></div> --><br>
+						<p>Such networks could be constructed in a myriad of ways, depending on objectives, constraints, and security/control, to name a few.</p><div class="blanks"></div>
+						<p>In general, networks could be categorized as either <b>Centralized or Decentralized</b> (or <b>Distributed</b>, as its “close-relative”). </p>
+						<!-- <div class="blanks"></div> --><br>
+						<p>Each category will have its pros and cons, and no one category is inherently better than the other; which one will work best for you will depend on a multitude of factors, as mentioned above. </p>
+						<div class="blanks"></div>
+						<p><b>Blockchain inherently leverages <span style="color:rgb(204, 51, 51);">Decentralized</span> networks</b>. Nonetheless, let’s take a quick look at each category. </p>
+					</div>
+					<div class=white></div>
+					<div class=white>
+						<p>The most common and intuitive types of networks are <b>centralized</b>, that is, they rely on a <b style="color:rgb(204, 51, 51)">central node</b> to which every other node in the network connects - think of <b>a telephone operator</b> as being the central node that can connect all other nodes to each other (upon request!). </p>
+						<div class="blanks"></div>
+						<p>Centralized networks are relatively easier to build, and could be <b>cost effective</b> in reducing the total “lines of wire” <sup class="footnote-anchor">1</sup> required to connect all nodes together. </p>
+						<div class="blanks"></div>
+						<p>But it will have a pivotal central node that could theoretically impede connections between other nodes: should it come under attack or fail, could take down the entire network as it has <b>little redundancy or system resiliency</b>.</p>
+						<p>In fact, as all routes pass through the central node, there is <b>only one route</b> between any two other nodes. </p>
+					</div>
+					<div class=white>
+						
+					</div>
+					<div class=white>
+						<!-- <div class="blanks"></div> -->
+						<p>In order to have a network with <b>“flat hierarchy”</b> where all nodes can be truly equal (especially in regard to voting rights) with lots of redundancy, we would need to implement <b style="color:rgb(204, 51,51);">decentralized</b> networks.</p>
+						<div class="blanks"></div>
+						<p>While <b>more complex</b> given all the moving parts and the need for all nodes to operate under common standards (“Protocols” - more on this later), decentralized networks offer a myriad of advantages, including <b style="color: rgb(204,51,51);">resiliency and robustness</b> - for instance, you have <b>multiple routes</b> two nodes could take to connect and lack of central authority to impede interactions/transactions.</p>
+						<div class="blanks"></div>
+						<p>You will also have <b>multiple routes between any two nodes</b>, although you will have more “lines of wire” connecting all nodes to the network. </p>
+					</div>
+					<div class=white>
+						
+					</div>
+					<div class=white>
+						<p>Although the definition of <b style="color: rgb(204,51,51);">distributed</b> networks in part depends on the setting and use-case (co-location, processing), they are <b>closely related to</b> decentralized networks (some argue they are a subcategory of decentralized).</p>
+						<div class="blanks"></div>
+						<p> In essence, distributed could be a <b style="color:rgb(204,51,51);">hybrid</b> between centralized and decentralized.</p><br>
+						<p>For instance, you could “distribute” a large task to be processed across multiple co-located nodes, but you’ll still be <b>in control</b> of all nodes. Or you could have a decentralized network such that each node is connected to its nearest neighbors by design, creating a lot of redundancy as <b>a fail-safe measure</b>.</p>
+						<div class="blanks"></div>
+						<p> In each of these settings, a distributed network could be <b>a mix of features</b> of centralized and decentralized, to best suit your needs. </p>
+					</div>
+					<div class=white></div>
+					
+				</div>
+				<div class = 'col-6' id = 'pathCount'>
+					<div class = "wrapper" id="w1">
+						<div class=dataPanel id="exp1">
+							<p style="color:gray"><span class = scrollTop style="color:rgb(204, 51, 51)"></span> unit(s) long<p>
+							<p style="color:gray">
+								<span id = path1 style="color:rgb(204, 51, 51);"></span>
+								path(s) between
+							<p>
+						</div>
+					</div>
+					<div class = "wrapper" id="w2">
+						<div class=dataPanel id="exp2">
+							<p style="color:gray"><span class = scrollTop style="color:rgb(204, 51, 51)"></span> unit(s) long<p>
+							<p style="color:gray">
+								<span id = path2 style="color:rgb(204, 51, 51)"></span>
+								path(s) between
+							<p>
+						</div>
+					</div>
+					<div class = "wrapper" id="w3" style="opacity: 1">
+						<div class=dataPanel id="exp3">
+							<p style="color:gray"><span class = scrollTop style="color:rgb(204, 51, 51)"></span> unit(s) long<p>
+							<p style="color:gray">
+								<span id = path3 style="color:rgb(204, 51, 51)"></span> 
+								path(s) between
+							<p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<div class="summary-panel">
+							<div class="contain_box" style="text-align:center"><h4>Centralized</h4></div>
+							<img src="../img/centralized.png" alt="centralized" style="width:70%; display:block; margin-left:auto; margin-right:auto">
+							<div class="contain_box">
+								<ul>
+									<li>
+										relies on a central node
+									</li>
+									<li>
+										little redundancy or system resiliency
+									</li>
+									<li>
+										one route between any 2 nodes
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="summary-panel">
+							<div class="contain_box" style="text-align:center"><h4>Decentralized</h4></div>
+							<img src="../img/decentralized.png" alt="decentralized" style="width:70%; display:block; margin-left:auto; margin-right:auto">
+							<div class="contain_box">
+								<ul>
+									<li>
+										resilient and robust
+									</li>
+									<li>
+										multiple routes between any 2 nodes
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="summary-panel">
+							<div class="contain_box" style="text-align:center"><h4>Distributed</h4></div>
+							<img src="../img/distributed.png" alt="distributed" style="width:70%; display:block; margin-left:auto; margin-right:auto">
+							<div class="contain_box">
+								<ul>
+									<li>
+										hybrid between centralized and decentralized
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class=white></div>
+					<div class=white>
+						<p>It is best to think of network types and various categories as a <b style="color:rgb(204,51,51);">spectrum</b>, on one hand you have pure <b>centralized</b> networks, and on the other a true <b>decentralized</b> one. Since blockchains are quite <b style="color:rgb(204,51,51);">customizable</b>, you will decide where on that spectrum your network should be to to best fit your objectives and constraints. </p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="footnote-container" style="top: 2520px; left: 260px; opacity: 1;">
+			For now, let’s assume we will have only wired connections between all nodes, no wireless
+		</div>
+		<div class=container id="graphs">
+			<div class=row id="growth"></div>
+			<div class=row id="graph1"></div>
+			<div class=row id="graph2"></div>
+			<div class=row id="graph3"></div>
+		</div>
+		
+		<script src="graph3.js" async></script>
+
+	</body>
+</html>
