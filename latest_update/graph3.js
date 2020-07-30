@@ -12,7 +12,6 @@ var svg0 = d3.select("#growth").append("svg")
 var svg1 = d3.select("#graph1").append("svg")
 				 .attr("width", $(graph1).width())
 				 .attr("height", $(graph1).height())
-				 .attr("x", 0)
 				 .attr("y", 0)
 				 .attr("viewBox", "0 0 "+ $(graph1).width() + " "+$(graph1).height())
 				 .attr("preserveAspectRatio", "xMinYMin meet")
@@ -365,10 +364,20 @@ document.getElementById("path1").innerHTML = pathSearch(c1, numV, bluePts);
 document.getElementById("path2").innerHTML = pathSearch(c2, numV, bluePts);
 document.getElementById("path3").innerHTML = pathSearch(c3, numV, bluePts);
 
+var w1 = d3.select("#w1");
+var w2 = d3.select("#w2");
+var w3 = d3.select("#w3");
+
+d3.select("#w2").attr("opacity", 0);
 
 var render = function() {
   if (scrollTop != newScrollTop) {
 	scrollTop = newScrollTop//update scrollTop, needs to be done after container reacts to scroller.scroll
+	d3.select("#w2").attr("msg", "test");
+	// if(scrollTop < frameHeight+base1-400){
+	// w2.attr("opacity", 0);
+		// w3.attr("opacity", 0);
+	// }
 
 	function introScale(svgC, top, max=0){
 		svgC = "#" + svgC;
@@ -454,7 +463,7 @@ var render = function() {
 		if(typeof validSum != "undefined"){
 			var elements = document.getElementsByClassName("scrollTop");
 			for(i = 0;i<elements.length; i++){
-				elements[i].innerHTML=validSum.toFixed(2);
+				elements[i].innerHTML=validSum.toFixed(0);
 			}
 		}
 		
@@ -466,6 +475,7 @@ var render = function() {
 	rescale(lines3, c3, "svg3", sumLen3, frameHeight*2+base1);
       
 	currentScrollTop.text(scrollTop)//update currentScrollTop?
+
   }
 
   window.requestAnimationFrame(render)
@@ -489,7 +499,6 @@ var setDimensions = function() {
 
 
 window.onresize = setDimensions
-
 
 //click event
 //requires refactoring
@@ -546,7 +555,7 @@ function click(nodes, nData){
 						numericalSum -= tmpLen;
 					}
 					for(let i=0; i<scrollOne.length; i++){
-						scrollOne[i].innerHTML = numericalSum;
+						scrollOne[i].innerHTML = numericalSum.toFixed(0);
 					}
 					
 				}
@@ -607,5 +616,4 @@ document.addEventListener('scroll', function() {
 var ft_container = d3.select("footnote-container");
 d3.select(".footnote-anchor").on("click", function(){
 	ft_container.style("opacity", 0);
-	// console.log("clicked!");
 });

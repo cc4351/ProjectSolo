@@ -74,11 +74,11 @@ p.menu{
 .wrapper{
 	position: absolute;
 	right: 0;
-	height: var(--h)
+	height: calc(var(--h) - 70vh);
 }
 
 #w1{
-	top: var(--h);;
+	top: var(--h);
 }
 
 #w2{
