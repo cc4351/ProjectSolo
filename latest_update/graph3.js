@@ -452,7 +452,7 @@ var render = function() {
 		if(typeof validSum != "undefined"){
 			var elements = document.getElementsByClassName("scrollTop");
 			for(i = 0;i<elements.length; i++){
-				elements[i].innerHTML=Math.round(validSum);
+				elements[i].innerHTML=Math.round(validSum.toFixed(0));
 			}
 		}
 		
@@ -544,7 +544,7 @@ function click(nodes, nData){
 						numericalSum -= tmpLen;
 					}
 					for(let i=0; i<scrollOne.length; i++){
-						scrollOne[i].innerHTML = numericalSum;
+						scrollOne[i].innerHTML = Math.round(numericalSum.toFixed(0));
 					}
 					
 				}
