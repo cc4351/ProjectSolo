@@ -360,9 +360,9 @@ function pathSearch(connData, numV, twoEnds, blockList=new Set()){
     return countPaths(conn, numV, src, sink, visited); 
 }
 
-document.getElementById("path1").innerHTML = pathSearch(c1, numV, bluePts);
-document.getElementById("path2").innerHTML = pathSearch(c2, numV, bluePts);
-document.getElementById("path3").innerHTML = pathSearch(c3, numV, bluePts);
+document.getElementById("path1").innerHTML = pathSearch(c1, numV, bluePts).toLocaleString('en');
+document.getElementById("path2").innerHTML = pathSearch(c2, numV, bluePts).toLocaleString('en');
+document.getElementById("path3").innerHTML = pathSearch(c3, numV, bluePts).toLocaleString('en');
 
 var w1 = d3.select("#w1");
 var w2 = d3.select("#w2");
@@ -374,10 +374,6 @@ var render = function() {
   if (scrollTop != newScrollTop) {
 	scrollTop = newScrollTop//update scrollTop, needs to be done after container reacts to scroller.scroll
 	d3.select("#w2").attr("msg", "test");
-	// if(scrollTop < frameHeight+base1-400){
-	// w2.attr("opacity", 0);
-		// w3.attr("opacity", 0);
-	// }
 
 	function introScale(svgC, top, max=0){
 		svgC = "#" + svgC;
@@ -463,7 +459,8 @@ var render = function() {
 		if(typeof validSum != "undefined"){
 			var elements = document.getElementsByClassName("scrollTop");
 			for(i = 0;i<elements.length; i++){
-				elements[i].innerHTML=validSum.toFixed(0);
+				// elements[i].innerHTML=validSum.toFixed(0);
+				elements[i].innerHTML = Math.round(validSum).toLocaleString('en');
 			}
 		}
 		
@@ -474,14 +471,14 @@ var render = function() {
 	rescale(lines2, c2, "svg2", sumLen2, frameHeight+base1);
 	rescale(lines3, c3, "svg3", sumLen3, frameHeight*2+base1);
       
-	currentScrollTop.text(scrollTop)//update currentScrollTop?
+	currentScrollTop.text(scrollTop);
 
   }
 
-  window.requestAnimationFrame(render)
+  window.requestAnimationFrame(render);
 }
 
-window.requestAnimationFrame(render)
+window.requestAnimationFrame(render);
 
 
 //resetting all params - for resizing
@@ -547,7 +544,9 @@ function click(nodes, nData){
 					//update the sum of total length
 					var tmpLen = parseFloat(lk.attr("pathlength"));
 					var scrollOne = document.getElementsByClassName("scrollTop");
-					var numericalSum = parseFloat(scrollOne[0].innerHTML);
+					var numericalSum = parseFloat(scrollOne[0].innerHTML.replace(/\D/g, ''));
+					// console.log(scrollOne);
+					// console.log(numericalSum);
 
 					if(newOpacity>oldOpacity){
 						numericalSum += tmpLen;
@@ -555,7 +554,7 @@ function click(nodes, nData){
 						numericalSum -= tmpLen;
 					}
 					for(let i=0; i<scrollOne.length; i++){
-						scrollOne[i].innerHTML = numericalSum.toFixed(0);
+						scrollOne[i].innerHTML = Math.round(numericalSum).toLocaleString('en');
 					}
 					
 				}
@@ -563,7 +562,7 @@ function click(nodes, nData){
 			}
 			var id = "path" + seq;
 			var tmp = [c1, c2, c3];
-			document.getElementById(id).innerHTML = pathSearch(tmp[seq-1], numV, bluePts, prevGray);
+			document.getElementById(id).innerHTML = pathSearch(tmp[seq-1], numV, bluePts, prevGray).toLocaleString('en');
 
 		});
 	});
