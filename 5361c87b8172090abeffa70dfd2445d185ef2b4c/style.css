@@ -1,7 +1,7 @@
 html *{
    color: #000;
    font-family: Georgia;
-   /*font-family: Helvetica;*/
+   font-size: min(1.5vw, 16px);
 }
 
 html{
@@ -13,22 +13,43 @@ p.menu{
 	text-align:center;
 }
 :root{
-	--intro_h:100vh;
+	--intro_h:120vh;
 	--h: 240vh;
 }
+
+h3{
+	font-size: min(28px, 3vw);
+}
+
+.title{
+	font-size: min(28px, 3vw);
+}
+
+#disclaimer{
+	font-size: min(18px, 2vm);
+	color:gray;
+}
+
+
 #intro{
 	top:20vh;
 	position: relative;
 	height:var(--intro_h);
 
 }
+
+#main{
+	top:calc(20vh+var(--intro_h));
+}
+
 #first{
 	top:20px;
 	position: relative;
 	width: 55%;
 }
 .white{
-	height:120vh;
+	/*height:min(120vh, 9/16*120vw);*/
+	height: 120vh;
 }
 
 #growth{
@@ -90,6 +111,7 @@ p.menu{
 }
 
 .blanks{
+	/*height: min(50vh, 9/16*50vw);*/
 	height: 50vh;
 }
 .progress-bar {
