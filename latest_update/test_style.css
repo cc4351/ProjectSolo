@@ -2,6 +2,9 @@ html *{
    color: #000;
    font-family: Georgia;
    font-size: min(1.5vw, 16px);
+   /*font-family: Helvetica;*/
+   /*width: 100%;*/
+   /*height: 100%*/
 }
 
 html{
@@ -12,8 +15,9 @@ html{
 p.menu{
 	text-align:center;
 }
+
 :root{
-	--intro_h:120vh;
+	--intro_h:100vh;
 	--h: 240vh;
 }
 
@@ -21,8 +25,9 @@ h3{
 	font-size: min(28px, 3vw);
 }
 
-.title{
+#title{
 	font-size: min(28px, 3vw);
+	color:rgb(204, 51, 51);
 }
 
 #disclaimer{
@@ -30,16 +35,17 @@ h3{
 	color:gray;
 }
 
-
-#intro{
+/*#intro{
 	top:20vh;
 	position: relative;
 	height:var(--intro_h);
 
-}
+}*/
 
 #main{
-	top:calc(20vh+var(--intro_h));
+	top: 40vh;
+	position: relative;
+	/*height: 100%;*/
 }
 
 #first{
@@ -48,8 +54,7 @@ h3{
 	width: 55%;
 }
 .white{
-	/*height:min(120vh, 9/16*120vw);*/
-	height: 120vh;
+	height:120vh;
 }
 
 #growth{
@@ -111,7 +116,6 @@ h3{
 }
 
 .blanks{
-	/*height: min(50vh, 9/16*50vw);*/
 	height: 50vh;
 }
 .progress-bar {

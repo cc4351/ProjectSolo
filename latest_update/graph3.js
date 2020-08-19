@@ -378,7 +378,7 @@ var render = function() {
 	function introScale(svgC, top, max=0){
 		svgC = "#" + svgC;
 		var bottom = $(svgC).height() + top;
-		var dif = scrollTop - top+40;
+		var dif = scrollTop - top+window.innerHeight/100*7;
 		d3.select(svgC).attr('transform','translate(' + d3.select(svgC).attr("width")/8 + ',' + dif+ ')');
 
 		nodes0.each(function(){
@@ -396,7 +396,7 @@ var render = function() {
 	function rescale(lines=[], connect=[], svgC, sumLen = 0, top){
 		svgC = "#" + svgC;
 		var bottom = $(svgC).height() + top;
-		var dif = scrollTop - top+40;
+		var dif = scrollTop - top+window.innerHeight/100*7;
 		//translate the graph down as the user scroll
 		d3.select(svgC).attr('transform','translate(' + d3.select(svgC).attr("width")/8 + ',' + dif+ ')');
 		var scales = lineScale(scrollTop-top);//scaling factor
